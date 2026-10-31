@@ -1630,6 +1630,30 @@ body.drawer-open {
   gap: 6px;
 }
 
+
+.sample-tag {
+  margin-left: 6px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7px;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.script-sample-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 6px;
+  border: 1px solid var(--line-2);
+  border-radius: 3px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 /* launch */
 
 .launch-page-head {

@@ -124,3 +124,59 @@ seconds. No music sting.*
 - **Title:** Never Answer the Door After Midnight.
 - **Description:** "Aadhi raat ke baad darwaza kabhi mat kholna. Chacha Mashwara ki
   rulebook se ek kahani." + rule + consequence.
+
+## Voice direction
+
+**CHACHA** — Warm, low, unhurried. He is warning someone he likes, not performing.
+Pause before the rule and before the verdict. Never shout.
+
+**HAMZA** — Young, earnest, a little proud. He wants to handle the night alone. His
+fear should arrive slowly — first annoyance, then doubt, then silence.
+
+**AYESHA** — Practical, tired, slightly annoyed. She is at a wedding and wants to
+come home. Her voice on the phone should feel ordinary. That is what makes The Voice
+copying her unsettling.
+
+**THE VOICE** — Do not play a monster. Play a perfect copy. At first it is Ayesha,
+warm and impatient. Then it is Hamza, amused. The horror is in the accuracy, not the
+volume.
+
+## Shot list
+
+1. **Cold open:** Chacha at the tea stall, rulebook closed. Medium shot. Steam.
+2. **Cold open:** Close-up as he says the rule. One blink. No music.
+3. **Transition:** His hand opens the book. Camera pushes into the page texture.
+4. **Story:** Flat interior. Hamza on the sofa, phone to his ear. One lamp.
+5. **Story:** His hand puts the phone down. The room is too quiet.
+6. **Story:** Door. A knock. Hold on the chain.
+7. **Story:** Hamza at the door, eye to the peephole. The corridor light is off.
+8. **Story:** He checks the phone. Ayesha's location pin is still at the wedding.
+9. **Story:** The chain slides open by itself. The door swings. Empty corridor.
+10. **Story:** Kitchen light snaps on. A chair is pulled out. The phone falls.
+11. **Return:** Same tea stall shot. Chacha closes the book. Verdict.
+12. **Final image:** The open door, the empty corridor, the phone glowing on the
+    floor. Hold two seconds.
+
+## Animation notes
+
+- Keep the flat cramped: sofa, door, kitchen doorway all visible in one or two
+  angles.
+- The corridor should be darker than the flat. The only light is the phone screen
+  and the kitchen bulb.
+- Do not show the entity. Show the chain moving, the door opening, the chair pulled
+  out, the phone on the floor.
+- Chacha's tea stall is warm: one yellow bulb, steam, a cracked bench. It should feel
+  like the safest place in the episode.
+
+## Production checklist
+
+- [ ] Record Chacha frame (cold open + return).
+- [ ] Record Hamza, Ayesha, and The Voice.
+- [ ] Build 2 sets: tea stall, flat + corridor.
+- [ ] Animate 12 shots.
+- [ ] Add sound: phone buzz, knock, chain, kitchen chair, silence.
+- [ ] Thumbnail: doorway composition, text **NEVER ANSWER**, Chacha corner mark.
+- [ ] Title: Never Answer the Door After Midnight.
+- [ ] Description + rule + consequence.
+- [ ] Schedule: Day 1, Slot A.
+

@@ -19,6 +19,7 @@ import {
   splitCast,
 } from "../lib.js";
 import { StatusPill } from "./ui.jsx";
+import { SAMPLE_SCRIPTS } from "../sampleScript.js";
 
 export default function ScriptBuilder({
   rules,
@@ -38,7 +39,8 @@ export default function ScriptBuilder({
 
   useEffect(() => {
     if (!selectedRule) return;
-    setScript(drafts[selectedRule.id] ?? buildScript(selectedRule));
+    const base = SAMPLE_SCRIPTS[selectedRule.id] ?? buildScript(selectedRule);
+    setScript(drafts[selectedRule.id] ?? base);
     setSavedAt(null);
   }, [selectedRule?.id]);
 
@@ -65,13 +67,14 @@ export default function ScriptBuilder({
 
   function regenerate() {
     if (!selectedRule) return;
-    setScript(buildScript(selectedRule));
+    const base = SAMPLE_SCRIPTS[selectedRule.id] ?? buildScript(selectedRule);
+    setScript(base);
     setDrafts((current) => {
       const next = { ...current };
       delete next[selectedRule.id];
       return next;
     });
-    showToast("Template regenerated");
+    showToast(SAMPLE_SCRIPTS[selectedRule.id] ? "Finished sample restored" : "Template regenerated");
   }
 
   async function copyScript() {
@@ -136,6 +139,7 @@ export default function ScriptBuilder({
                 <strong>{rule.rule}</strong>
                 <span className="script-list-meta">
                   {rule.volume} · {rule.family}
+                  {SAMPLE_SCRIPTS[rule.id] ? <em className="sample-tag">sample</em> : null}
                 </span>
               </button>
             ))}
@@ -150,13 +154,16 @@ export default function ScriptBuilder({
                   <div className="eyebrow">{selectedRule.volume} · {selectedRule.id}</div>
                   <h2>{selectedRule.rule}</h2>
                   <p>{selectedRule.consequence}</p>
+                  {SAMPLE_SCRIPTS[selectedRule.id] ? (
+                    <span className="script-sample-badge">First story · fully written</span>
+                  ) : null}
                 </div>
                 <div className="script-editor-actions">
                   <button className="btn btn-small btn-ghost" onClick={() => onOpenRule(selectedRule.id)}>
                     Open seed <ArrowRight size={14} />
                   </button>
                   <button className="btn btn-small btn-ghost" onClick={regenerate}>
-                    <RotateCcw size={14} /> Reset template
+                    <RotateCcw size={14} /> {SAMPLE_SCRIPTS[selectedRule.id] ? "Reset sample" : "Reset template"}
                   </button>
                 </div>
               </div>
