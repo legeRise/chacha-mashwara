@@ -34,6 +34,7 @@ batches/            Monthly generation batches
 templates/          Episode script template
 analytics/          Monthly reviews
 tools/              Build + validation scripts
+ui/                 Local review + production UI (React + Vite)
 ```
 
 ## Start here
@@ -55,6 +56,16 @@ python3 tools/duplicate_report.py     # near-duplicate report for review
 Source of truth: `rules/source/volume-*.psv`. Edit there, then rebuild. Do not edit
 `rules.csv` directly.
 
+## Run the UI
+
+```bash
+cd ui
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`. See `ui/README.md` for the screens and shortcuts.
+
 ## Status
 
 - [x] Show format locked
@@ -63,6 +74,7 @@ Source of truth: `rules/source/volume-*.psv`. Edit there, then rebuild. Do not e
 - [x] 1,000-rule catalog (candidate status)
 - [x] Duplicate-twist cleanup pass
 - [x] First sample script (R-0001)
+- [x] Local review + production UI
 - [ ] Volume 1 review
 - [ ] First 14 scripts
 - [ ] Launch

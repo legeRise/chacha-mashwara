@@ -4,3 +4,7 @@ __pycache__/
 *.swp
 .idea/
 .vscode/
+ui/node_modules/
+ui/dist/
+ui/public/rules.json
+ui/public/meta.json
