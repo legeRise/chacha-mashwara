@@ -2,7 +2,7 @@
 
 A local review and production tool for the rulebook.
 
-**Live:** https://openchamber.ez-clip.ovh/chacha/
+**Live:** https://chacha.ez-clip.ovh/
 
 ## Run it locally
 
@@ -32,7 +32,7 @@ Output lives in `ui/dist`. It is a static site; serve it with any static host.
 ```
 
 That builds the UI, copies it to `/var/www/chacha`, and reloads nginx. The public
-URL is `https://openchamber.ez-clip.ovh/chacha/`.
+URL is `https://chacha.ez-clip.ovh/`.
 
 ## What it does
 

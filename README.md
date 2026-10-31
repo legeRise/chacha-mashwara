@@ -59,7 +59,7 @@ Source of truth: `rules/source/volume-*.psv`. Edit there, then rebuild. Do not e
 
 ## Run the UI
 
-**Live:** https://openchamber.ez-clip.ovh/chacha/
+**Live:** https://chacha.ez-clip.ovh/
 
 ```bash
 cd ui

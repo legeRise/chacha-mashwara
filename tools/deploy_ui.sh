@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 UI="$ROOT/ui"
 TARGET="/var/www/chacha"
-URL="https://openchamber.ez-clip.ovh/chacha/"
+URL="https://chacha.ez-clip.ovh/"
 
 cd "$UI"
 npm run build
