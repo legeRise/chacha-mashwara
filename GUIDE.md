@@ -48,7 +48,7 @@ One rule at a time. This is the fastest way to clear a volume.
 - The server writer (DeepSeek V4.1 Flash, using the flash-fiction + endings gate)
   reads the seed and writes the whole episode: cold open,
   dialogue, twist, verdict, shot list.
-- Wait about 30–90 seconds.
+- Wait about 2–5 minutes.
 - Review the draft. Edit it if needed.
 - Chacha appears only in the cold open and the return. No narrator inside the story.
 - **Save draft** keeps the script in this browser.

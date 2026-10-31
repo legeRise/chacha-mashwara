@@ -10,7 +10,7 @@ Run:
 
 Environment:
     PORT=8787
-    WRITER_MODEL=opencode-go/claude-haiku-5-5
+    WRITER_MODEL=opencode-go/deepseek-v4.1-flash
     OPENCODE_BIN=/home/ubuntu/.opencode/bin/opencode
 """
 
