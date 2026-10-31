@@ -29,6 +29,8 @@ CHACHA
 
 ### Scene 1 — The Empty Chair
 
+CAST: @hamza
+
 **INT. FLAT ABOVE TAILOR'S SHOP — 11:52 PM**
 
 One room. A ceiling fan turns without hurry. On the low table: a plate covered by another plate, and a small gold-edged place card propped against it. **BHAI** in gold. The card smells of attar.
@@ -41,6 +43,8 @@ HAMZA
 आपा की शादी है... और मैं यहाँ हूँ।
 
 ### Scene 2 — The Call
+
+CAST: @hamza
 
 **INT. FLAT ABOVE TAILOR'S SHOP — 11:56 PM**
 
@@ -66,6 +70,8 @@ HAMZA
 
 ### Scene 3 — The Refusal
 
+CAST: @hamza
+
 **INT. FLAT ABOVE TAILOR'S SHOP — 11:58 PM**
 
 AYESHA (PHONE)
@@ -90,6 +96,8 @@ He sits with the phone at his ear, the wedding card in his other hand. Then he s
 
 ### Scene 4 — Three Knocks
 
+CAST: @hamza
+
 **INT. FLAT — 12:01 AM**
 
 He freezes, hand inside the plastic. The room is lit by one lamp. The chain is still on the door.
@@ -102,6 +110,8 @@ HAMZA
 कौन?
 
 ### Scene 5 — Her Voice
+
+CAST: @hamza
 
 **INT. FLAT — 12:02 AM**
 
@@ -127,6 +137,8 @@ VOICE OF AYESHA
 
 ### Scene 6 — The Chain
 
+CAST: @hamza
+
 **INT. FLAT — 12:03 AM**
 
 He looks at the place card on the table. Picks it up. Gold letters under his thumb.
@@ -144,6 +156,8 @@ He stops breathing.
 His hand goes to the chain. The metal is cold. The phone clock reads **12:03 AM**.
 
 ### Scene 7 — The Empty Corridor
+
+CAST: @hamza
 
 **INT. FLAT — 12:04 AM**
 
@@ -166,6 +180,8 @@ VOICE OF HAMZA
 He steps back.
 
 ### Scene 8 — The Inside Voice
+
+CAST: @hamza
 
 **INT. FLAT — 12:05 AM**
 

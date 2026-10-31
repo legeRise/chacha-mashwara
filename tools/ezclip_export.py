@@ -27,6 +27,7 @@ _INLINE_RE = re.compile(
 _SPEAKER_ONLY_RE = re.compile(
     r"^\*{0,2}\s*([A-Z][A-Z0-9 '().,_-]{1,60}?)\s*\*{0,2}\s*$"
 )
+_CAST_RE = re.compile(r"^CAST\s*:\s*(.+)$", re.IGNORECASE)
 _DIRECTION_RE = re.compile(r"^(?:INT|EXT)\.", re.IGNORECASE)
 
 _STOP_NAMES = {
@@ -129,15 +130,23 @@ def _looks_like_speaker(name: str, known: set[str]) -> bool:
 
 
 def _parse_block(lines: list[str], known: set[str]):
-    """Return (visual, dialogue, new_speakers) for one heading block."""
+    """Return (visual, dialogue, new_speakers, cast) for one heading block."""
     visual: list[str] = []
     dialogue: list[dict] = []
     new_speakers: list[str] = []
+    cast: list[str] = []
     current: str | None = None
 
     for raw in lines:
         line = raw.strip()
         if not line:
+            current = None
+            continue
+        cast_match = _CAST_RE.match(_clean(line))
+        if cast_match:
+            for tag in re.findall(r"@([a-z0-9_]+)", cast_match.group(1).lower()):
+                if tag not in cast:
+                    cast.append(tag)
             current = None
             continue
         if re.match(r"^##\s+Production notes", line, re.IGNORECASE):
@@ -204,7 +213,7 @@ def _parse_block(lines: list[str], known: set[str]):
         # Plain action prose belongs in the visual description.
         visual.append(_clean(line))
 
-    return _clean(" ".join(visual)), dialogue, new_speakers
+    return _clean(" ".join(visual)), dialogue, new_speakers, cast
 
 
 def script_to_ezclip(script: str) -> str:
@@ -245,7 +254,7 @@ def script_to_ezclip(script: str) -> str:
     scenes = []
     final_visual = ""
     for block in blocks:
-        visual, dialogue, new_speakers = _parse_block(block["lines"], known)
+        visual, dialogue, new_speakers, cast_tags = _parse_block(block["lines"], known)
         for name in new_speakers:
             if name not in cast:
                 cast.append(name)
@@ -261,6 +270,7 @@ def script_to_ezclip(script: str) -> str:
                 "title": block["title"] or f"Scene {len(scenes) + 1}",
                 "visual": visual,
                 "dialogue": dialogue,
+                "cast": cast_tags,
             }
         )
 
@@ -282,8 +292,14 @@ def script_to_ezclip(script: str) -> str:
 
     for scene in scenes:
         lines.append(f"SCENE — {scene['title']}")
-        if scene["title"].lower().startswith("cold open") or scene["title"].lower().startswith("return"):
-            lines.append("CAST: @chacha_mashwara")
+        cast_tags = scene.get("cast") or []
+        if not cast_tags and (
+            scene["title"].lower().startswith("cold open")
+            or scene["title"].lower().startswith("return")
+        ):
+            cast_tags = ["chacha_mashwara"]
+        if cast_tags:
+            lines.append("CAST: " + " ".join(f"@{tag}" for tag in cast_tags))
         if scene["visual"]:
             lines.append(f"VISUAL: {scene['visual']}")
         if scene["dialogue"]:
