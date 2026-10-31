@@ -6,6 +6,7 @@
 **Story cast:** HAMZA (V1), AYESHA (V2, phone voice), THE VOICE (V6)
 **Chacha:** CH
 **No narrator. No Chacha inside the story.**
+**Production packet:** `production/R-0001-production-packet.md`
 
 ---
 
