@@ -21,7 +21,7 @@
 | R-0613 | Never sleep on a night bus | You wake at the wrong stop, and it's your house | MAN; DRIVER; WIFE | A night bus on a dark road | The bus is driving through the man's memories |
 | R-0614 | Don't eat on a bus | The food is for the driver | PASSENGER; DRIVER; CONDUCTOR | A bus with a driver's cabin | The driver died on this route |
 | R-0615 | Never ask the driver to stop between stops | The bus stops somewhere else | WOMAN; DRIVER; FAMILY | A bus on a highway | The house is the woman's childhood home |
-| R-0616 | Don't leave your bag on the bus | It arrives at your house before you | MAN; CONDUCTOR; WIFE | A bus stop outside his house | The bag was delivered by a passenger who died on the bus |
+| R-0616 | Don't leave your bag on the bus | It arrives at your house before you | MAN; CONDUCTOR; WIFE | A bus stop outside his house | The bag is still on the bus, and he is the one who got off |
 | R-0617 | Never take a bus that waits for you | It's been waiting for years | WOMAN; DRIVER; PASSENGERS | A bus stop outside her house | The bus is collecting her for the depot |
 | R-0618 | Don't press the stop button twice | The bus stops twice | BOY; DRIVER; MOTHER | A city bus with a stop button | The second stop is a graveyard |
 | R-0619 | Never sit in the back row alone | Someone sits with you | MAN; WOMAN; DRIVER | A bus with a back row | The woman is the man's dead wife |

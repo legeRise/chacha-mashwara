@@ -41,6 +41,7 @@ report. Changed rows:
 - R-0957 — eclipse rule now "Never open a window during an eclipse."
 - R-0963 — first-rain rule now "Never comb your hair in the first rain."
 - R-0785 — hide-and-seek rule now "Never play hide and seek after sunset."
+- R-0616 — bag twist now "the bag is still on the bus, and he is the one who got off."
 
 Fixed a tone typo (`eerier` → `eerie`) and a location typo ("A alley" →
 "An alley").

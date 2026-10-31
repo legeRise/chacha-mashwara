@@ -39,9 +39,21 @@ tools/              Build + validation scripts
 ## Start here
 
 1. Read `channel/channel.md` and `channel/format.md`.
-2. Read `series/chacha-mashwara/bible.md`.
+2. Read `series/chacha-mashwara/bible.md` and `voice-cast.md`.
 3. Open `rules/rules.csv` — the master catalog.
-4. Use `templates/episode-script.md` to turn a rule into a script.
+4. Review Volume 1 in `rules/volumes/01-ghar.md` and `batches/2026-11-volume-01.md`.
+5. Use `templates/episode-script.md` to turn a rule into a script.
+
+## Build & validate
+
+```bash
+python3 tools/build_catalog.py        # rebuild rules.csv, rules.json, volume pages
+python3 tools/validate_catalog.py     # validate only
+python3 tools/duplicate_report.py     # near-duplicate report for review
+```
+
+Source of truth: `rules/source/volume-*.psv`. Edit there, then rebuild. Do not edit
+`rules.csv` directly.
 
 ## Status
 
