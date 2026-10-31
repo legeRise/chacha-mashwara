@@ -1,5 +1,9 @@
 # Review Process
 
+> **Read `quality-pipeline.md` first.** No seed becomes a script until it passes
+> the seed gate. No script goes to production until it passes
+> `script-quality.md`.
+
 ## The pipeline
 
 ```

@@ -36,11 +36,29 @@ URL is `https://chacha.ez-clip.ovh/`.
 
 ## What it does
 
-- **Overview** — catalog stats, volume progress, review data export.
-- **Rules** — search, filter by volume/family/tone/status, open any seed.
+- **Overview** — catalog stats, volume progress, quality gate counts, review data export.
+- **Rules** — search, filter by volume/family/tone/status/gate, open any seed.
 - **Review** — one rule at a time, keyboard shortcuts (A/M/R/S/U), notes.
-- **Script builder** — turn a rule into a multi-voice episode skeleton.
+- **Script builder** — click **Write full script** to have the server writer turn a seed into a complete episode script.
 - **Launch plan** — the first 28 episodes over 14 days.
+- **Guide** — in-app instructions.
+
+## The writer
+
+The **Write full script** button calls `tools/writer_server.py` through `/api/`.
+The server asks the local `opencode` model to write a quality-gated script and
+saves it to `scripts/generated/`. It takes roughly 1–3 minutes.
+
+Run it locally:
+
+```bash
+python3 tools/writer_server.py
+```
+
+On this server it runs as `chacha-writer.service` and is proxied by nginx.
+
+Generated scripts are **AI drafts**. Review them against the script gate before
+production.
 
 ## Local review data
 

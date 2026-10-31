@@ -23,6 +23,7 @@ SOURCE_DIR = ROOT / "rules" / "source"
 RULES_DIR = ROOT / "rules"
 VOLUMES_DIR = RULES_DIR / "volumes"
 LOCATIONS_FILE = ROOT / "series" / "chacha-mashwara" / "locations.md"
+QUALITY_FILE = RULES_DIR / "quality.csv"
 
 VOLUMES = [
     ("Ghar", "Home", "The house knows you."),
@@ -73,6 +74,13 @@ def load_locations() -> list[str]:
     return locations
 
 
+def load_quality() -> dict[str, dict[str, str]]:
+    if not QUALITY_FILE.exists():
+        return {}
+    with QUALITY_FILE.open(encoding="utf-8", newline="") as fh:
+        return {row["id"]: row for row in csv.DictReader(fh)}
+
+
 def source_files() -> list[Path]:
     files = sorted(SOURCE_DIR.glob("volume-*.psv"))
     if len(files) != len(VOLUMES):
@@ -109,6 +117,7 @@ def normalize(text: str) -> str:
 
 def build() -> list[dict[str, str]]:
     locations = load_locations()
+    quality = load_quality()
     records: list[dict[str, str]] = []
     idx = 0
 
@@ -136,6 +145,14 @@ def build() -> list[dict[str, str]]:
                 "tone": row["tone"],
                 "chacha_location": location,
                 "status": "candidate",
+                "gate_status": quality.get(rule_id, {}).get("gate_status", "ungated"),
+                "seed_score": quality.get(rule_id, {}).get("seed_score", "0"),
+                "want": quality.get(rule_id, {}).get("want", ""),
+                "object_motif": quality.get(rule_id, {}).get("object_motif", ""),
+                "theme": quality.get(rule_id, {}).get("theme", ""),
+                "verdict": quality.get(rule_id, {}).get("verdict", ""),
+                "gate_flags": quality.get(rule_id, {}).get("flags", ""),
+                "gate_notes": quality.get(rule_id, {}).get("notes", ""),
                 "notes": "",
                 "source": row["_source"],
             }
@@ -183,6 +200,16 @@ def validate(records: list[dict[str, str]]) -> list[str]:
         words = rec["rule"].split()
         if len(words) > 10:            errors.append(f"{rid}: rule too long ({len(words)} words)")
 
+        if rec["status"] in {"approved", "scripted"} and rec["gate_status"] != "passed":
+            errors.append(f"{rid}: status '{rec['status']}' requires a passed seed gate")
+
+        if rec["gate_status"] == "passed":
+            for field in ("want", "object_motif", "theme", "verdict"):
+                if not rec.get(field, "").strip():
+                    errors.append(f"{rid}: passed gate but missing '{field}'")
+            if int(rec.get("seed_score", "0") or 0) < 7:
+                errors.append(f"{rid}: passed gate but seed_score < 7")
+
         blob = " ".join(rec.values()).lower()
         for word in BANNED:
             if word in blob:
@@ -219,6 +246,14 @@ def write_outputs(records: list[dict[str, str]]) -> None:
         "tone",
         "chacha_location",
         "status",
+        "gate_status",
+        "seed_score",
+        "want",
+        "object_motif",
+        "theme",
+        "verdict",
+        "gate_flags",
+        "gate_notes",
         "notes",
         "source",
     ]
@@ -247,7 +282,19 @@ def write_outputs(records: list[dict[str, str]]) -> None:
             continue
         first, last = vol_records[0]["id"], vol_records[-1]["id"]
         lines.append(f"| {i}. {name} ({english}) | {len(vol_records)} | {first}–{last} | {tagline} |")
+    gate_counts = {"passed": 0, "needs-fix": 0, "ungated": 0, "killed": 0}
+    for rec in records:
+        gate_counts[rec["gate_status"]] = gate_counts.get(rec["gate_status"], 0) + 1
     lines += [
+        "",
+        "## Quality gate",
+        "",
+        f"- Passed: **{gate_counts.get('passed', 0)}**",
+        f"- Needs fix: **{gate_counts.get('needs-fix', 0)}**",
+        f"- Ungated: **{gate_counts.get('ungated', 0)}**",
+        f"- Killed: **{gate_counts.get('killed', 0)}**",
+        "",
+        "No seed becomes a script until its gate status is `passed`.",
         "",
         "## How to review",
         "",
@@ -273,13 +320,14 @@ def write_outputs(records: list[dict[str, str]]) -> None:
             "",
             f"**{len(vol_records)} rules.** Status: candidate.",
             "",
-            "| ID | Rule | Consequence | Cast | Place | Twist |",
-            "|---|---|---|---|---|---|",
+            "| ID | Rule | Consequence | Cast | Place | Twist | Gate |",
+            "|---|---|---|---|---|---|---|",
         ]
         for r in vol_records:
             page.append(
                 f"| {r['id']} | {r['rule']} | {r['consequence']} | "
-                f"{r['cast']} | {r['place']} | {r['twist']} |"
+                f"{r['cast']} | {r['place']} | {r['twist']} | "
+                f"{r['gate_status']} ({r['seed_score']}) |"
             )
         page.append("")
         (VOLUMES_DIR / f"{i:02d}-{slug}.md").write_text(

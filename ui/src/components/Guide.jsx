@@ -57,17 +57,32 @@ export default function Guide() {
         <h2><FileText size={15} /> 4. Script builder</h2>
         <ol>
           <li>Pick a rule from the left list.</li>
-          <li>The template fills in the cold open, story beats, cast, and final image.</li>
-          <li>Write the dialogue in Urdu. Chacha appears only at the start and the end.</li>
-          <li>Use <strong>Save draft</strong>, <strong>Copy</strong>, or <strong>Download .md</strong>.</li>
+          <li>Click <strong>Write full script</strong>. The server writer reads the seed and writes the whole episode — cold open, dialogue, twist, verdict, shot list.</li>
+          <li>Wait about 1–3 minutes. The draft appears in the editor.</li>
+          <li>Review it. Edit it. Use <strong>Save draft</strong>, <strong>Copy</strong>, or <strong>Download .md</strong>.</li>
         </ol>
         <p>
-          Drafts are saved in this browser. They are not written back to the repo.
+          The writer is an AI draft, not a final production script. Review it before
+          you record or animate. For R-0001, the finished sample is already loaded.
         </p>
       </section>
 
       <section className="guide-section">
-        <h2>5. Launch plan</h2>
+        <h2>5. Quality gate</h2>
+        <p>
+          Every seed has a gate status: <strong>Passed</strong>, <strong>Needs fix</strong>,
+          or <strong>Ungated</strong>. No seed should become a final script until it
+          passes. The writer applies the gate when it drafts, but you still review the
+          result.
+        </p>
+        <p>
+          The gate asks for a specific want, a concrete object, a sympathetic breach,
+          a causal twist, and a one-sentence verdict. “Curious” is not a reason.
+        </p>
+      </section>
+
+      <section className="guide-section">
+        <h2>6. Launch plan</h2>
         <p>
           The first 28 episodes over 14 days, two per day. Each card shows the rule,
           Chacha's location, thumbnail direction, and status. Click a card to open the
@@ -76,7 +91,7 @@ export default function Guide() {
       </section>
 
       <section className="guide-section">
-        <h2>6. Saving your work</h2>
+        <h2>7. Saving your work</h2>
         <p>
           Approvals, notes, and script drafts are stored in this browser. To put them
           into the repo, open <strong>Overview</strong> → <strong>Review data</strong> and

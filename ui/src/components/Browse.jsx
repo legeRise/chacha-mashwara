@@ -7,10 +7,12 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import {
+  GATE_META,
   STATUS_META,
   STATUS_ORDER,
   VOLUME_META,
   cx,
+  getGate,
   formatNumber,
   getStatus,
   reviewCounts,
@@ -38,6 +40,7 @@ export default function Browse({
   const [family, setFamily] = useState("all");
   const [tone, setTone] = useState("all");
   const [status, setStatus] = useState("all");
+  const [gate, setGate] = useState("all");
   const [sort, setSort] = useState("id");
   const [page, setPage] = useState(0);
 
@@ -57,7 +60,7 @@ export default function Browse({
 
   useEffect(() => {
     setPage(0);
-  }, [search, volume, family, tone, status, sort]);
+  }, [search, volume, family, tone, status, gate, sort]);
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -67,6 +70,7 @@ export default function Browse({
       if (family !== "all" && rule.family !== family) return false;
       if (tone !== "all" && rule.tone !== tone) return false;
       if (status !== "all" && getStatus(rule, reviews) !== status) return false;
+      if (gate !== "all" && getGate(rule) !== gate) return false;
       if (tokens.length) {
         const blob = [
           rule.id,
@@ -98,13 +102,13 @@ export default function Browse({
       return a.id.localeCompare(b.id);
     });
     return result;
-  }, [rules, reviews, search, volume, family, tone, status, sort]);
+  }, [rules, reviews, search, volume, family, tone, status, gate, sort]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages - 1);
   const pageRows = filtered.slice(safePage * PAGE_SIZE, safePage * PAGE_SIZE + PAGE_SIZE);
   const activeFilters =
-    volume !== "all" || family !== "all" || tone !== "all" || status !== "all" || search;
+    volume !== "all" || family !== "all" || tone !== "all" || status !== "all" || gate !== "all" || search;
 
   function clearFilters() {
     setSearch("");
@@ -112,6 +116,7 @@ export default function Browse({
     setFamily("all");
     setTone("all");
     setStatus("all");
+    setGate("all");
     setSort("id");
     onClearPreset?.();
   }
@@ -200,6 +205,13 @@ export default function Browse({
               </option>
             ))}
           </select>
+          <select value={gate} onChange={(event) => setGate(event.target.value)}>
+            <option value="all">All gates</option>
+            <option value="passed">Gate passed</option>
+            <option value="needs-fix">Needs fix</option>
+            <option value="ungated">Ungated</option>
+            <option value="killed">Killed</option>
+          </select>
           <select value={sort} onChange={(event) => setSort(event.target.value)}>
             {SORTS.map((item) => (
               <option key={item.id} value={item.id}>
@@ -227,6 +239,7 @@ export default function Browse({
                   <th className="col-family">Family</th>
                   <th className="col-cast">Cast</th>
                   <th className="col-status">Status</th>
+                  <th className="col-gate">Gate</th>
                 </tr>
               </thead>
               <tbody>
@@ -255,6 +268,11 @@ export default function Browse({
                       </td>
                       <td className="col-status">
                         <StatusPill status={getStatus(rule, reviews)} compact />
+                      </td>
+                      <td className="col-gate">
+                        <span className={`gate-pill ${GATE_META[getGate(rule)]?.className || "gate-ungated"}`}>
+                          {GATE_META[getGate(rule)]?.label || "Ungated"} {rule.seed_score || 0}
+                        </span>
                       </td>
                     </tr>
                   );

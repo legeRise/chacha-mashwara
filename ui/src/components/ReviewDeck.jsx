@@ -10,9 +10,11 @@ import {
   X,
 } from "lucide-react";
 import {
+  GATE_META,
   STATUS_META,
   VOLUME_META,
   cx,
+  getGate,
   formatNumber,
   getStatus,
   reviewCounts,
@@ -215,6 +217,9 @@ export default function ReviewDeck({
           <div className="review-card-id">
             <span className="mono">{current.id}</span>
             <StatusPill status={getStatus(current, reviews)} compact />
+            <span className={`gate-pill ${GATE_META[getGate(current)]?.className || "gate-ungated"}`}>
+              {GATE_META[getGate(current)]?.label || "Ungated"} {current.seed_score || 0}
+            </span>
           </div>
           <div className="review-card-meta">
             <span>{current.volume}</span>
@@ -223,6 +228,13 @@ export default function ReviewDeck({
         </header>
 
         <div className="review-card-main">
+          {getGate(current) !== "passed" ? (
+            <div className="gate-warning">
+              <strong>Seed gate: {GATE_META[getGate(current)]?.label || "Ungated"}.</strong>{" "}
+              This idea has not passed the quality gate yet. Do not write the full script
+              from the seed as-is.
+            </div>
+          ) : null}
           <div className="eyebrow">{current.volume_english} · rule {current.id.replace("R-", "")}</div>
           <h2>{current.rule}</h2>
           <p className="review-consequence">{current.consequence}</p>

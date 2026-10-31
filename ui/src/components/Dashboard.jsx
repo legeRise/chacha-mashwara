@@ -9,6 +9,7 @@ import {
   downloadFile,
   exportReviews,
   formatNumber,
+  gateCounts,
   getStatus,
 } from "../lib.js";
 import { ProgressBar, StatusPill } from "./ui.jsx";
@@ -29,6 +30,7 @@ export default function Dashboard({
 }) {
   const total = rules.length;
   const reviewed = counts.approved + counts.maybe + counts.rejected;
+  const gates = gateCounts(rules);
   const lastRule = lastReviewedId
     ? rules.find((rule) => rule.id === lastReviewedId)
     : null;
@@ -183,16 +185,20 @@ export default function Dashboard({
               <h2>Catalog health</h2>
             </div>
             <div className="health-row">
-              <span>Complete seeds</span>
-              <strong>{formatNumber(total)}</strong>
+              <span>Gate passed</span>
+              <strong className="good">{formatNumber(gates.passed)}</strong>
             </div>
             <div className="health-row">
-              <span>Duplicate twists</span>
-              <strong className="good">0</strong>
+              <span>Needs fix</span>
+              <strong className="warn">{formatNumber(gates["needs-fix"])}</strong>
             </div>
             <div className="health-row">
-              <span>Empty fields</span>
-              <strong className="good">0</strong>
+              <span>Ungated</span>
+              <strong>{formatNumber(gates.ungated)}</strong>
+            </div>
+            <div className="health-row">
+              <span>Killed</span>
+              <strong>{formatNumber(gates.killed)}</strong>
             </div>
             <div className="health-row">
               <span>Source</span>

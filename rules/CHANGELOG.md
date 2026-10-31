@@ -53,3 +53,17 @@ Fixed a tone typo (`eerier` → `eerie`) and a location typo ("A alley" →
 > **Direction:** make the consequence about the guest's shoes, not the voice.
 
 The source row is edited, the catalog is rebuilt, and this file is updated.
+
+## 2026-10-31 — Quality gate
+
+- Added `rules/quality.csv` with gate fields for all 1,000 seeds.
+- Added `tools/quality_gate.py` (audit, flags, report, `--apply`, `--strict`).
+- Added `engine/quality-pipeline.md` and `engine/script-quality.md`.
+- R-0001 rewritten with the flash-fiction and endings diagnostics; the only
+  `passed` seed so far.
+- Audit: **1 passed, 238 needs fix, 761 ungated.**
+- Added `tools/writer_server.py` and the UI **Write full script** button. The
+  writer uses the local `opencode` model, applies the gate prompt, and saves drafts
+  to `scripts/generated/`.
+- `rules.json` now includes `gate_status`, `seed_score`, `want`, `object_motif`,
+  `theme`, `verdict`, and `gate_flags`.

@@ -44,18 +44,35 @@ One rule at a time. This is the fastest way to clear a volume.
 ## 4. Script builder
 
 - Pick a rule from the left list.
-- The template fills in the cold open, story beats, cast, final image, and return.
-- Write the dialogue in Urdu.
+- Click **Write full script**.
+- The server writer reads the seed and writes the whole episode: cold open,
+  dialogue, twist, verdict, shot list.
+- Wait about 30–90 seconds.
+- Review the draft. Edit it if needed.
 - Chacha appears only in the cold open and the return. No narrator inside the story.
 - **Save draft** keeps the script in this browser.
 - **Copy** or **Download .md** to move it out.
 
-## 5. Launch plan
+The writer saves a copy to `scripts/generated/`. It is an AI draft; review it
+against the quality gate before production.
+
+## 5. Quality gate
+
+Every seed has a gate status:
+
+- **Passed** — has a specific want, object/motif, theme, verdict, and a score ≥ 7.
+- **Needs fix** — flagged for a generic breach, a twist trope, or a weak final image.
+- **Ungated** — not reviewed yet.
+
+The writer applies the gate when it drafts, but a human still reviews the result.
+No seed should become a final script until it passes.
+
+## 6. Launch plan
 
 The first 28 episodes over 14 days, two a day. Each card shows the rule, Chacha's
 location, thumbnail direction, and status. Click a card to open the seed.
 
-## 6. Saving changes
+## 7. Saving changes
 
 1. Review and annotate rules.
 2. Open **Overview → Review data**.
@@ -64,7 +81,7 @@ location, thumbnail direction, and status. Click a card to open the seed.
 
 Script drafts are exported individually from the Script builder.
 
-## 7. Editing the catalog
+## 8. Editing the catalog
 
 The catalog is read-only in the UI.
 

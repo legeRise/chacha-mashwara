@@ -15,6 +15,15 @@
 | 9. Khandan (Family) | 100 | R-0801–R-0900 | Blood keeps a ledger. |
 | 10. Mausam (Weather) | 100 | R-0901–R-1000 | The sky has a memory. |
 
+## Quality gate
+
+- Passed: **1**
+- Needs fix: **238**
+- Ungated: **761**
+- Killed: **0**
+
+No seed becomes a script until its gate status is `passed`.
+
 ## How to review
 
 Open a volume page, mark any rule you want changed, and send the IDs. IDs never change. Status starts as `candidate`.

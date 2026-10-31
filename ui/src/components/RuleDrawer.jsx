@@ -9,7 +9,7 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
-import { copyText, cx, ruleChangeRequest, splitCast } from "../lib.js";
+import { GATE_META, copyText, cx, getGate, ruleChangeRequest, splitCast } from "../lib.js";
 import { StatusPill } from "./ui.jsx";
 
 function Field({ icon: Icon, label, children, wide = false }) {
@@ -79,6 +79,46 @@ export default function RuleDrawer({
             <span className="chip">{rule.family}</span>
             <span className="chip">{rule.tone}</span>
             <span className="chip chip-muted">{rule.chacha_location}</span>
+          </div>
+
+          <div className="gate-box">
+            <div className="gate-box-head">
+              <span className={`gate-pill ${GATE_META[getGate(rule)]?.className || "gate-ungated"}`}>
+                {GATE_META[getGate(rule)]?.label || "Ungated"} · {rule.seed_score || 0}/10
+              </span>
+              <span className="gate-box-label">Seed gate</span>
+            </div>
+            {getGate(rule) !== "passed" ? (
+              <p className="gate-warning">
+                This seed has not passed the quality gate. The story writer can fix it,
+                but do not produce the script without a review.
+              </p>
+            ) : null}
+            <div className="gate-fields">
+              <div>
+                <span>Want</span>
+                <p>{rule.want || "Not filled yet"}</p>
+              </div>
+              <div>
+                <span>Object / motif</span>
+                <p>{rule.object_motif || "Not filled yet"}</p>
+              </div>
+              <div>
+                <span>Theme</span>
+                <p>{rule.theme || "Not filled yet"}</p>
+              </div>
+              <div>
+                <span>Verdict</span>
+                <p>{rule.verdict || "Not filled yet"}</p>
+              </div>
+            </div>
+            {rule.gate_flags ? (
+              <div className="gate-flags">
+                {rule.gate_flags.split(";").filter(Boolean).map((flag) => (
+                  <span key={flag}>{flag}</span>
+                ))}
+              </div>
+            ) : null}
           </div>
 
           <div className="drawer-section">

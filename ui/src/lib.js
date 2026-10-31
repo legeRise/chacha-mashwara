@@ -20,6 +20,23 @@ export const STATUS_META = {
 
 export const STATUS_ORDER = ["candidate", "approved", "maybe", "rejected"];
 
+export const GATE_META = {
+  passed: { label: "Passed", className: "gate-passed" },
+  "needs-fix": { label: "Needs fix", className: "gate-needs-fix" },
+  ungated: { label: "Ungated", className: "gate-ungated" },
+  killed: { label: "Killed", className: "gate-killed" },
+};
+
+export function getGate(rule) {
+  return rule.gate_status || "ungated";
+}
+
+export function gateCounts(rules) {
+  const counts = { passed: 0, "needs-fix": 0, ungated: 0, killed: 0 };
+  for (const rule of rules) counts[getGate(rule)] += 1;
+  return counts;
+}
+
 export const LAUNCH_PLAN = [
   { day: 1, slot: "A", id: "R-0001", thumb: "Doorway" },
   { day: 1, slot: "B", id: "R-0011", thumb: "Object close-up" },

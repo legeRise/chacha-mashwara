@@ -7,6 +7,8 @@ import {
   FileText,
   RotateCcw,
   Search,
+  Sparkles,
+  Loader2,
   Wand2,
 } from "lucide-react";
 import {
@@ -15,6 +17,7 @@ import {
   cx,
   downloadFile,
   formatNumber,
+  getGate,
   getStatus,
   splitCast,
 } from "../lib.js";
@@ -34,6 +37,10 @@ export default function ScriptBuilder({
   const [search, setSearch] = useState("");
   const [script, setScript] = useState("");
   const [savedAt, setSavedAt] = useState(null);
+  const [generating, setGenerating] = useState(false);
+  const [generatedAt, setGeneratedAt] = useState(null);
+  const [genError, setGenError] = useState("");
+  const [genWarnings, setGenWarnings] = useState([]);
 
   const selectedRule = rules.find((rule) => rule.id === selectedId) || rules[0];
 
@@ -45,6 +52,9 @@ export default function ScriptBuilder({
     const isOldTemplate = draft?.includes("[Write the rule in Urdu");
     setScript(isOldTemplate ? base : draft ?? base);
     setSavedAt(null);
+    setGeneratedAt(null);
+    setGenError("");
+    setGenWarnings([]);
   }, [selectedRule?.id]);
 
   useEffect(() => {
@@ -94,6 +104,33 @@ export default function ScriptBuilder({
     showToast("Script downloaded");
   }
 
+  async function generateFullScript() {
+    if (!selectedRule || generating) return;
+    setGenerating(true);
+    setGenError("");
+    setGenWarnings([]);
+    setGeneratedAt(null);
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ruleId: selectedRule.id }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Writer failed");
+      setScript(data.script);
+      setDrafts((current) => ({ ...current, [selectedRule.id]: data.script }));
+      setGeneratedAt(new Date());
+      setGenWarnings(data.warnings || []);
+      showToast(`Full script written for ${selectedRule.id}`);
+    } catch (error) {
+      setGenError(error.message || "Writer failed");
+      showToast("Writer failed — see the message");
+    } finally {
+      setGenerating(false);
+    }
+  }
+
   function saveNow() {
     if (!selectedRule) return;
     setDrafts((current) => ({ ...current, [selectedRule.id]: script }));
@@ -113,6 +150,15 @@ export default function ScriptBuilder({
           <div className="script-head-meta">
             <span className="mono">{selectedRule.id}</span>
             <StatusPill status={getStatus(selectedRule, reviews)} compact />
+            <span className={
+              getGate(selectedRule) === "passed"
+                ? "gate-pill gate-passed"
+                : getGate(selectedRule) === "needs-fix"
+                  ? "gate-pill gate-needs-fix"
+                  : "gate-pill gate-ungated"
+            }>
+              {getGate(selectedRule) === "passed" ? "Gate passed" : getGate(selectedRule) === "needs-fix" ? "Needs fix" : "Ungated"}
+            </span>
           </div>
         ) : null}
       </header>
@@ -162,10 +208,14 @@ export default function ScriptBuilder({
                   ) : null}
                 </div>
                 <div className="script-editor-actions">
+                  <button className="btn btn-small btn-primary" onClick={generateFullScript} disabled={generating}>
+                    {generating ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}
+                    {generating ? "Writing…" : SAMPLE_SCRIPTS[selectedRule.id] ? "Generate new draft" : "Write full script"}
+                  </button>
                   <button className="btn btn-small btn-ghost" onClick={() => onOpenRule(selectedRule.id)}>
                     Open seed <ArrowRight size={14} />
                   </button>
-                  <button className="btn btn-small btn-ghost" onClick={regenerate}>
+                  <button className="btn btn-small btn-ghost" onClick={regenerate} disabled={generating}>
                     <RotateCcw size={14} /> {SAMPLE_SCRIPTS[selectedRule.id] ? "Reset sample" : "Reset template"}
                   </button>
                 </div>
@@ -182,6 +232,35 @@ export default function ScriptBuilder({
                 Write dialogue in Urdu. Chacha appears only in the cold open and the
                 return. No narrator inside the story.
               </div>
+
+              {generating ? (
+                <div className="generation-banner">
+                  <Loader2 size={16} className="spin" />
+                  <div>
+                    <strong>Writing the full script…</strong>
+                    <span>Cold open → breach → twist → verdict. About 1–3 minutes.</span>
+                  </div>
+                </div>
+              ) : null}
+
+              {genError ? (
+                <div className="generation-error">
+                  <strong>Writer failed.</strong> {genError}
+                </div>
+              ) : null}
+
+              {generatedAt ? (
+                <div className="generated-badge">
+                  <Sparkles size={13} /> AI draft · review before production
+                </div>
+              ) : null}
+
+              {genWarnings.length ? (
+                <div className="generation-error">
+                  <strong>Writer check:</strong> {genWarnings.join(", ")}. Fix before
+                  production.
+                </div>
+              ) : null}
 
               <textarea
                 className="script-textarea"
