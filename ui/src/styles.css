@@ -1841,6 +1841,15 @@ body.drawer-open {
   text-transform: uppercase;
 }
 
+
+.script-count {
+  margin-left: 10px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  text-transform: uppercase;
+}
+
 /* launch */
 
 .launch-page-head {

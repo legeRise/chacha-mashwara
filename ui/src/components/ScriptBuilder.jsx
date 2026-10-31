@@ -15,6 +15,7 @@ import {
   buildScript,
   copyText,
   cx,
+  dialogueOnly,
   downloadFile,
   formatNumber,
   getGate,
@@ -43,6 +44,7 @@ export default function ScriptBuilder({
   const [genWarnings, setGenWarnings] = useState([]);
 
   const selectedRule = rules.find((rule) => rule.id === selectedId) || rules[0];
+  const dialogue = dialogueOnly(script, selectedRule?.cast || "");
 
   useEffect(() => {
     if (!selectedRule) return;
@@ -92,7 +94,12 @@ export default function ScriptBuilder({
 
   async function copyScript() {
     await copyText(script);
-    showToast("Script copied");
+    showToast("Full document copied");
+  }
+
+  async function copyDialogue() {
+    await copyText(dialogue);
+    showToast(`Dialogue copied · ${dialogue.length} chars`);
   }
 
   function downloadScript() {
@@ -285,13 +292,17 @@ export default function ScriptBuilder({
                   ) : (
                     "Auto-saves in this browser"
                   )}
+                  <span className="script-count">{dialogue.length} dialogue chars</span>
                 </span>
                 <div className="script-footer-actions">
                   <button className="btn btn-small" onClick={saveNow}>
                     <FileText size={14} /> Save draft
                   </button>
+                  <button className="btn btn-small" onClick={copyDialogue}>
+                    <Copy size={14} /> Copy dialogue
+                  </button>
                   <button className="btn btn-small" onClick={copyScript}>
-                    <Copy size={14} /> Copy
+                    <Copy size={14} /> Copy full
                   </button>
                   <button className="btn btn-small" onClick={downloadScript}>
                     <Download size={14} /> Download .md

@@ -181,6 +181,89 @@ export function exportReviews(rules, reviews, notes = {}, format = "json") {
   return lines.join("\n");
 }
 
+
+export function dialogueOnly(script, cast = "") {
+  const cut = (script || "").split(/\n##\s+Production notes/i)[0];
+  const castLine = cut.match(/\*\*Story cast:\*\*\s*(.+)/i)?.[1] || "";
+  const names = new Set([
+    "CHACHA",
+    "VOICE",
+    "THE VOICE",
+    ...splitCast(cast),
+    ...castLine
+      .split(/[;,]/)
+      .map((part) => part.replace(/\(.*$/, "").trim().toUpperCase())
+      .filter(Boolean),
+  ]);
+  const baseName = (label) => label.replace(/\s*\(.*$/, "").trim().toUpperCase();
+  const out = [];
+  let inDialogue = false;
+
+  for (const raw of cut.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) {
+      inDialogue = false;
+      continue;
+    }
+    if (/^#\s/.test(line)) {
+      out.push(line);
+      continue;
+    }
+    if (/^\[/.test(line)) {
+      inDialogue = false;
+      continue;
+    }
+    if (/^\(/.test(line)) {
+      continue;
+    }
+
+    const inline =
+      line.match(/^\*\*([^*]+?)\*\*\s*(?:\*\([^)]*\)\*\s*)?:\s*(.+)$/) ||
+      line.match(/^\*\*([^*]+?):\*\*\s*(.+)$/) ||
+      line.match(/^([A-Z][A-Z0-9 '().,-]{1,60}):\s*(.+)$/);
+    if (inline) {
+      const label = inline[1].replace(/\*\*/g, "").trim();
+      const base = baseName(label);
+      if (names.has(base) || names.has(label) || /VOICE|O\.S\./i.test(label)) {
+        out.push(`${label}: ${inline[2].trim()}`);
+        inDialogue = true;
+        continue;
+      }
+    }
+
+    const head =
+      line.match(/^\*\*([^*]+?)\*\*$/) ||
+      line.match(/^([A-Z][A-Z0-9 '().,-]{1,60})$/);
+    if (head) {
+      const label = head[1].trim();
+      const base = baseName(label);
+      if (names.has(base) || names.has(label) || /VOICE|O\.S\./i.test(label)) {
+        out.push(`${label}:`);
+        inDialogue = true;
+        continue;
+      }
+    }
+
+    if (inDialogue) {
+      if (
+        /^\*/.test(line) ||
+        /^TITLE CARD/.test(line) ||
+        /^(INT|EXT)\./.test(line)
+      ) {
+        continue;
+      }
+      out.push(line);
+      continue;
+    }
+
+    if (/[“"]/.test(line) && !/^TITLE CARD/.test(line)) {
+      out.push(line);
+    }
+  }
+
+  return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+
 export function buildScript(rule) {
   const cast = splitCast(rule.cast);
   const [first, second, third] = cast;

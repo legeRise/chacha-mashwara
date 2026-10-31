@@ -52,7 +52,13 @@ One rule at a time. This is the fastest way to clear a volume.
 - Review the draft. Edit it if needed.
 - Chacha appears only in the cold open and the return. No narrator inside the story.
 - **Save draft** keeps the script in this browser.
-- **Copy** or **Download .md** to move it out.
+- **Copy dialogue** copies only the spoken lines (no shot list or production notes).
+- **Copy full** copies the whole production document.
+- **Download .md** saves the whole document.
+
+The footer shows the dialogue character count. If your video tool has a 2,500-
+character limit, use **Copy dialogue**: the full document is longer only because
+it includes shot lists, voice direction, and thumbnail notes.
 
 The writer saves a copy to `scripts/generated/`. It is an AI draft; review it
 against the quality gate before production.
