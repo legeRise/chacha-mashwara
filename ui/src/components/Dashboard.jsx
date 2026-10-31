@@ -22,6 +22,7 @@ export default function Dashboard({
   navigate,
   onOpenVolume,
   onOpenRule,
+  onOpenScript,
   onReset,
   lastReviewedId,
   showToast,
@@ -132,8 +133,11 @@ export default function Dashboard({
                 <p className="compact-text">{lastRule.consequence}</p>
                 <div className="compact-actions">
                   <StatusPill status={getStatus(lastRule, reviews)} compact />
+                  <button className="btn btn-small btn-primary" onClick={() => onOpenScript(lastRule.id)}>
+                    Open script <ArrowRight size={13} />
+                  </button>
                   <button className="btn btn-small" onClick={() => onOpenRule(lastRule.id)}>
-                    Open <ArrowRight size={13} />
+                    Seed
                   </button>
                 </div>
               </>
@@ -142,9 +146,14 @@ export default function Dashboard({
                 <div className="compact-meta">R-0001</div>
                 <div className="compact-title">Never answer the door after midnight</div>
                 <p className="compact-text">Start with the cleanest promise in the book.</p>
-                <button className="btn btn-small" onClick={() => onOpenRule("R-0001")}>
-                  Open <ArrowRight size={13} />
-                </button>
+                <div className="compact-actions">
+                  <button className="btn btn-small btn-primary" onClick={() => onOpenScript("R-0001")}>
+                    Open script <ArrowRight size={13} />
+                  </button>
+                  <button className="btn btn-small" onClick={() => onOpenRule("R-0001")}>
+                    Seed
+                  </button>
+                </div>
               </>
             )}
           </section>

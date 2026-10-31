@@ -209,6 +209,7 @@ export default function App() {
               navigate={navigate}
               onOpenVolume={openVolume}
               onOpenRule={openRule}
+              onOpenScript={openScript}
               onReset={resetReviews}
               lastReviewedId={lastReviewedId}
               showToast={showToast}
