@@ -15,17 +15,17 @@ One bulb over a wooden bench. A kettle breathes steam. CHACHA sits with his back
 
 CHACHA
 (low, close)
-Raat ke baarah baje ke baad... darwaza mat kholna.
+रात के बारह बजे के बाद... दरवाज़ा मत खोलना।
 
 He lifts the glass. Steam climbs past his face.
 
 CHACHA
-Chahe awaz apne ghar wale ki lage.
+चाहे आवाज़ अपने घर वाले की लगे।
 
 He sets the glass down. It rings once against the wood.
 
 CHACHA
-Awaz seekh leti hai.
+आवाज़ सीख लेती है।
 
 TITLE CARD: **NEVER ANSWER THE DOOR AFTER MIDNIGHT**
 
@@ -47,28 +47,28 @@ He answers.
 
 SISTER (PHONE)
 (over shehnai and crowd)
-Bhai? Sun rahe ho?
+भाई? सुन रहे हो?
 
 YOUNG MAN
-Haan.
+हाँ।
 
 SISTER (PHONE)
-Tumhari kursi khali hai. Sab pooch rahe hain.
+तुम्हारी कुर्सी खाली है। सब पूछ रहे हैं।
 
 YOUNG MAN
-Main nahi aa raha.
+मैं नहीं आ रहा।
 
 SISTER (PHONE)
-Naraz ho?
+नाराज़ हो?
 
 YOUNG MAN
-Nahi.
+नहीं।
 
 SISTER (PHONE)
-Phir aao. Waqt hai abhi.
+फिर आओ। वक़्त है अभी।
 
 YOUNG MAN
-Apa, main—
+आपा, मैं—
 
 Click. The shehnai cuts.
 
@@ -82,37 +82,37 @@ He freezes, hand inside the plastic.
 
 THE VOICE
 (through the door, muffled, exactly the sister's)
-Bhai... kholo.
+भाई... खोलो।
 
 He crosses to the door. Stops an arm's length away.
 
 YOUNG MAN
-Kaun?
+कौन?
 
 THE VOICE
-Main. Bahar thand hai.
+मैं। बाहर ठंड है।
 
 YOUNG MAN
-Abhi tum ne call kiya. Tum hall mein ho.
+अभी तुमने कॉल किया। तुम हॉल में हो।
 
 THE VOICE
-Nikal aayi. Taxi se.
+निकल आई। टैक्सी से।
 
 A soft sound against the door — cloth dragging, then stopping.
 
 YOUNG MAN
-Phone kyun nahi utha rahi?
+फ़ोन क्यों नहीं उठा रही?
 
 THE VOICE
-Battery mar gayi. Bas kholo.
+बैटरी मर गई। बस खोलो।
 
-He dials. One ring. Then the recorded voice: *"Yeh number abhi dastiyab nahi hai."* He lowers the phone.
+He dials. One ring. Then the recorded voice: *\"यह नंबर अभी दस्तियाब नहीं है।\"* He lowers the phone.
 
 YOUNG MAN
-Apa... main maafi—
+आपा... मैं माफ़ी—
 
 THE VOICE
-Maine tumhe maaf kar diya.
+मैंने तुम्हें माफ़ कर दिया।
 
 He stops breathing.
 
@@ -124,24 +124,24 @@ At the door, he slides the chain. The metal is cold.
 
 YOUNG MAN
 (low)
-Tumhe naraz hona chahiye.
+तुम्हें नाराज़ होना चाहिए।
 
 THE VOICE
-Thi. Ab nahi.
+थी। अब नहीं।
 
 A beat.
 
 YOUNG MAN
-Sach?
+सच?
 
 THE VOICE
-Sach.
+सच।
 
 The bolt slides. He pulls the door.
 
 YOUNG MAN
 (under his breath)
-Main aa raha hoon.
+मैं आ रहा हूँ।
 
 ### Scene 4 — The twist
 
@@ -152,7 +152,7 @@ He stands in the doorway, card in hand.
 From the stairwell below — his own voice, flat, without breath:
 
 HIS VOICE
-Main nahi aa raha.
+मैं नहीं आ रहा।
 
 He steps back. The phone rings in his hand. **APA.**
 
@@ -160,18 +160,18 @@ He answers.
 
 SISTER (PHONE)
 (shehnai, laughter)
-Bhai! Main stage pe hoon. Tum kahan ho?
+भाई! मैं स्टेज पे हूँ। तुम कहाँ हो?
 
 YOUNG MAN
-Tum... bahar nahi ho?
+तुम... बाहर नहीं हो?
 
 SISTER (PHONE)
-Kya? Bhai, awaz kaisi—
+क्या? भाई, आवाज़ कैसी—
 
 Behind him, inside the flat, close and soft:
 
 THE VOICE
-Bhai... andar aa jao.
+भाई... अंदर आ जाओ।
 
 He turns.
 
@@ -189,17 +189,17 @@ CHACHA watches the street. He sets the empty glass down.
 
 CHACHA
 (to camera)
-Tum ne maafi ke liye darwaza khola.
+तुमने माफ़ी के लिए दरवाज़ा खोला।
 
 A beat.
 
 CHACHA
-Usne ijazat samajh li.
+उसने इजाज़त समझ ली।
 
 He looks at the empty glass.
 
 CHACHA
-Rule yaad rakhna.
+रूल याद रखना।
 
 ## FINAL IMAGE
 
@@ -218,17 +218,17 @@ CUT TO BLACK.
 ### Voice direction
 
 - **CHACHA:** Low, dry, close to the mic. He speaks like a man remembering, not warning. No sing-song, no hurry. The rule lines land on the exhale.
-- **YOUNG MAN:** Late 20s. Breath high in the throat. Volume drops as he nears the door; "Main aa raha hoon" is almost inaudible.
-- **SISTER (PHONE):** Bright, fast, talking over the shehnai. The cut on "Apa, main—" must feel like a door closing.
+- **YOUNG MAN:** Late 20s. Breath high in the throat. Volume drops as he nears the door; \"Main aa raha hoon\" is almost inaudible.
+- **SISTER (PHONE):** Bright, fast, talking over the shehnai. The cut on \"Apa, main—\" must feel like a door closing.
 - **THE VOICE:** The same actress as the sister, recorded dry. Same timbre, but a half-beat late and no breath between sentences — as if reading her from memory. Never a growl. Never a whisper. The final inside line is warm, pleased, close-mic.
 - **HIS VOICE (STAIRWELL):** An exact, flat copy of the young man's earlier line. No emotion. No echo.
 
 ### Shot list
 
-1. **0:00-0:09** — Slow push: tea glass and steam, rising to Chacha's face. Title card lands on "Awaz seekh leti hai."
+1. **0:00-0:09** — Slow push: tea glass and steam, rising to Chacha's face. Title card lands on \"Awaz seekh leti hai.\"
 2. **0:09-0:13** — Insert: place card propped against the covered plate. Phone light sweeps across the gold **BHAI**.
 3. **0:13-0:18** — Wide: the flat, the sealed sherwani, the young man on the floor. He reaches for the plastic.
-4. **0:18-0:22** — Close: phone at his ear. "Apa, main—" Click. He holds the dead phone.
+4. **0:18-0:22** — Close: phone at his ear. \"Apa, main—\" Click. He holds the dead phone.
 5. **0:22-0:26** — Door from inside: three knocks. His hand hovers over the chain. The cloth drags once.
 6. **0:26-0:30** — Close: the voicemail in his ear. His jaw tightens. He lowers the phone.
 7. **0:30-0:35** — Insert: the place card lifted, thumb over the letters. The chain slides; the bolt turns.

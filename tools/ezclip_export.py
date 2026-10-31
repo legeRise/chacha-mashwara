@@ -45,7 +45,7 @@ _MALE_HINTS = (
 
 
 def _clean(text: str) -> str:
-    text = (text or "").replace("**", "").replace("__", "")
+    text = (text or "").replace("**", "").replace("__", "").replace('\\"', '"')
     text = text.replace("“", '"').replace("”", '"')
     text = re.sub(r"^\[\s*", "", text)
     text = re.sub(r"\s*\]$", "", text)
@@ -55,9 +55,10 @@ def _clean(text: str) -> str:
 def _speaker_name(raw: str) -> str:
     name = _clean(raw).upper()
     name = re.sub(r"\s*\([^)]*\)\s*$", "", name).strip()
-    # The entity mimics the young man's voice; one voice actor is the point.
-    if name == "HIS VOICE":
-        return "YOUNG MAN"
+    if name == "CH":
+        return "CHACHA"
+    # The entity mimics the protagonist's voice; resolve against the cast in
+    # _parse_block (HAMZA in one variant, YOUNG MAN in the other).
     return name
 
 
@@ -70,6 +71,8 @@ def _unquote(text: str) -> str:
 
 def _gender(name: str, cast: list[str] | None = None) -> str:
     words = set(re.findall(r"[A-Z]+", name.upper()))
+    if name == "HIS VOICE":
+        return "male"
     if words & set(_FEMALE_HINTS):
         return "female"
     if words & set(_MALE_HINTS):
@@ -151,6 +154,8 @@ def _parse_block(lines: list[str], known: set[str]):
         inline = _INLINE_RE.match(_clean(line))
         if inline:
             name = _speaker_name(inline.group(1))
+            if name == "HIS VOICE":
+                name = "HAMZA" if "HAMZA" in known else ("YOUNG MAN" if "YOUNG MAN" in known else name)
             if name in {"VOICE", "THE VOICE"} and "THE EYE" in known:
                 name = "THE EYE"
             if _looks_like_speaker(name, known):
@@ -166,6 +171,8 @@ def _parse_block(lines: list[str], known: set[str]):
         speaker_only = _SPEAKER_ONLY_RE.match(_clean(line))
         if speaker_only:
             name = _speaker_name(speaker_only.group(1))
+            if name == "HIS VOICE":
+                name = "HAMZA" if "HAMZA" in known else ("YOUNG MAN" if "YOUNG MAN" in known else name)
             if name in {"VOICE", "THE VOICE"} and "THE EYE" in known:
                 name = "THE EYE"
             if _looks_like_speaker(name, known):
