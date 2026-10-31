@@ -44,7 +44,7 @@ export default function ScriptBuilder({
   const [genWarnings, setGenWarnings] = useState([]);
 
   const selectedRule = rules.find((rule) => rule.id === selectedId) || rules[0];
-  const dialogue = dialogueOnly(script, selectedRule?.cast || "");
+  const dialogue = dialogueOnly(script, selectedRule?.cast || "", selectedRule);
 
   useEffect(() => {
     if (!selectedRule) return;

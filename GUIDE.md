@@ -52,7 +52,7 @@ One rule at a time. This is the fastest way to clear a volume.
 - Review the draft. Edit it if needed.
 - Chacha appears only in the cold open and the return. No narrator inside the story.
 - **Save draft** keeps the script in this browser.
-- **Copy dialogue** copies only the spoken lines (no shot list or production notes).
+- **Copy dialogue** copies a labeled dialogue script: rule ID, rule, consequence, speaker map, and every line prefixed with its speaker. It excludes shot lists and production notes.
 - **Copy full** copies the whole production document.
 - **Download .md** saves the whole document.
 

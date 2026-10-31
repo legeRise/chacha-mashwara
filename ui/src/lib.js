@@ -182,86 +182,141 @@ export function exportReviews(rules, reviews, notes = {}, format = "json") {
 }
 
 
-export function dialogueOnly(script, cast = "") {
+export function dialogueOnly(script, cast = "", rule = null) {
   const cut = (script || "").split(/\n##\s+Production notes/i)[0];
   const castLine = cut.match(/\*\*Story cast:\*\*\s*(.+)/i)?.[1] || "";
-  const names = new Set([
-    "CHACHA",
-    "VOICE",
-    "THE VOICE",
-    ...splitCast(cast),
-    ...castLine
-      .split(/[;,]/)
-      .map((part) => part.replace(/\(.*$/, "").trim().toUpperCase())
-      .filter(Boolean),
-  ]);
-  const baseName = (label) => label.replace(/\s*\(.*$/, "").trim().toUpperCase();
-  const out = [];
-  let inDialogue = false;
+  const speakers = new Map();
 
-  for (const raw of cut.split(/\r?\n/)) {
-    const line = raw.trim();
-    if (!line) {
-      inDialogue = false;
-      continue;
+  const addSpeaker = (name, code) => {
+    if (!name) return;
+    const display = name.replace(/\s*\(.*$/, "").trim().toUpperCase();
+    if (!display) return;
+    if (display === "CH") {
+      speakers.set("CHACHA", code || "CH");
+      return;
     }
-    if (/^#\s/.test(line)) {
-      out.push(line);
-      continue;
-    }
-    if (/^\[/.test(line)) {
-      inDialogue = false;
-      continue;
-    }
-    if (/^\(/.test(line)) {
-      continue;
-    }
+    if (!speakers.has(display)) speakers.set(display, code || "");
+  };
 
-    const inline =
-      line.match(/^\*\*([^*]+?)\*\*\s*(?:\*\([^)]*\)\*\s*)?:\s*(.+)$/) ||
-      line.match(/^\*\*([^*]+?):\*\*\s*(.+)$/) ||
-      line.match(/^([A-Z][A-Z0-9 '().,-]{1,60}):\s*(.+)$/);
-    if (inline) {
-      const label = inline[1].replace(/\*\*/g, "").trim();
-      const base = baseName(label);
-      if (names.has(base) || names.has(label) || /VOICE|O\.S\./i.test(label)) {
-        out.push(`${label}: ${inline[2].trim()}`);
-        inDialogue = true;
-        continue;
-      }
+  addSpeaker("CHACHA", "CH");
+  if (castLine) {
+    const matches = castLine.matchAll(
+      /(?:^|[;,]\s*)([A-Z][A-Z '.-]{1,40})(?:\s*\(([^)]*)\))?/g,
+    );
+    for (const match of matches) {
+      const code = (match[2] || "").match(/V\d+/i)?.[0]?.toUpperCase() || "";
+      addSpeaker(match[1], code);
     }
+  } else {
+    for (const part of splitCast(cast)) addSpeaker(part, "");
+  }
 
-    const head =
-      line.match(/^\*\*([^*]+?)\*\*$/) ||
-      line.match(/^([A-Z][A-Z0-9 '().,-]{1,60})$/);
-    if (head) {
-      const label = head[1].trim();
-      const base = baseName(label);
-      if (names.has(base) || names.has(label) || /VOICE|O\.S\./i.test(label)) {
-        out.push(`${label}:`);
-        inDialogue = true;
-        continue;
-      }
-    }
+  if (/\*\*VOICE|\bVOICE\s*\(O\.S\./i.test(cut) && !speakers.has("VOICE")) {
+    speakers.set("VOICE", speakers.get("THE EYE") || "V3");
+  }
 
-    if (inDialogue) {
-      if (
-        /^\*/.test(line) ||
-        /^TITLE CARD/.test(line) ||
-        /^(INT|EXT)\./.test(line)
-      ) {
-        continue;
-      }
-      out.push(line);
-      continue;
-    }
-
-    if (/[“"]/.test(line) && !/^TITLE CARD/.test(line)) {
-      out.push(line);
+  let nextVoice = 1;
+  for (const [name, code] of [...speakers.entries()]) {
+    if (!code) {
+      speakers.set(name, `V${nextVoice}`);
+      nextVoice += 1;
     }
   }
 
-  return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  const displayFor = (label) => {
+    const base = label.replace(/\s*\(.*$/, "").trim().toUpperCase();
+    return base === "CH" ? "CHACHA" : base;
+  };
+  const codeFor = (label) => speakers.get(displayFor(label)) || "";
+  const formatLine = (speaker, text) => {
+    const display = displayFor(speaker);
+    const code = codeFor(speaker);
+    const body = /^[“"]/.test(text) ? text : `"${text}"`;
+    return `${display}${code ? ` (${code})` : ""}: ${body}`;
+  };
+
+  const out = [];
+  let current = "";
+  let inDialogue = false;
+  let buffer = [];
+
+  const flush = () => {
+    if (current && buffer.length) {
+      const text = buffer.join(" ").replace(/\s+/g, " ").trim();
+      if (text) out.push(formatLine(current, text));
+    }
+    buffer = [];
+  };
+
+  for (const raw of cut.split(/\r?\n/)) {
+    const text = raw.trim();
+    if (!text) {
+      flush();
+      inDialogue = false;
+      current = "";
+      continue;
+    }
+    if (/^#\s/.test(text)) continue;
+    if (/^\[/.test(text)) {
+      flush();
+      inDialogue = false;
+      current = "";
+      continue;
+    }
+    if (/^\(/.test(text)) continue;
+    if (/^\*/.test(text) && !/^\*\*/.test(text)) continue;
+
+    const inline =
+      text.match(/^\*\*([^*]+?)\*\*\s*(?:\*\([^)]*\)\*\s*)?:\s*(.+)$/) ||
+      text.match(/^\*\*([^*]+?):\*\*\s*(.+)$/) ||
+      text.match(/^([A-Z][A-Z0-9 '().,-]{1,60}):\s*(.+)$/);
+    if (inline) {
+      const label = inline[1].replace(/\*\*/g, "").trim();
+      const body = inline[2].trim();
+      const display = displayFor(label);
+      const isSpeaker = speakers.has(display) || /VOICE|O\.S\./i.test(label);
+      if (isSpeaker && body && !/^(CH|V\d+)$/i.test(body)) {
+        flush();
+        out.push(formatLine(label, body));
+        current = label;
+        inDialogue = true;
+        continue;
+      }
+      if (!isSpeaker) continue;
+    }
+
+    const head =
+      text.match(/^\*\*([^*]+?)\*\*(?:\s*\*[^*]+\*)?\s*$/) ||
+      text.match(/^([A-Z][A-Z0-9 '().,-]{1,60})$/);
+    if (head) {
+      const label = head[1].trim();
+      const display = displayFor(label);
+      if (speakers.has(display) || /VOICE|O\.S\./i.test(label)) {
+        flush();
+        current = label;
+        inDialogue = true;
+        continue;
+      }
+    }
+
+    if (inDialogue && current) {
+      if (/^TITLE CARD/.test(text) || /^(INT|EXT)\./.test(text)) continue;
+      buffer.push(text);
+    }
+  }
+  flush();
+
+  const header = [
+    rule ? `# ${rule.id} — ${rule.rule}` : "",
+    rule ? `RULE: ${rule.rule}` : "",
+    rule ? `CONSEQUENCE: ${rule.consequence}` : "",
+    "",
+    "SPEAKERS:",
+    ...[...speakers.entries()].map(([name, code]) => `${name} = ${code}`),
+    "",
+  ].join("\n");
+
+  return `${header}${out.join("\n")}`.trim();
 }
 
 export function buildScript(rule) {
