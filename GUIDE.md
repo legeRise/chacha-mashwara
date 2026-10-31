@@ -44,24 +44,33 @@ One rule at a time. This is the fastest way to clear a volume.
 ## 4. Script builder
 
 - Pick a rule from the left list.
+- **Only a passed seed can be written.** A needs-fix or ungated seed disables
+  the button and shows exactly what is missing (want, object/motif, theme,
+  verdict, or a generic breach). The writer returns 409 if called directly.
 - Click **Write full script**.
 - The server writer (DeepSeek V4.1 Flash, using the flash-fiction + endings gate)
   reads the seed and writes the whole episode: cold open,
   dialogue, twist, verdict, shot list.
 - Wait about 2–5 minutes.
+- The script appears immediately. A second reader then checks it against the
+  flash-fiction/endings gate in the background; the panel shows passed, failed
+  with evidence, or not verified. The writer button stays locked until that
+  check finishes.
 - Review the draft. Edit it if needed.
 - Chacha appears only in the cold open and the return. No narrator inside the story.
 - **Save draft** keeps the script in this browser.
-- **Copy dialogue** copies a labeled dialogue script: rule ID, rule, consequence, speaker map, and every line prefixed with its speaker. It excludes shot lists and production notes.
+- **Copy for Ezclip** converts the story — cold open, story scenes, return —
+  into Ezclip's multi-speaker format. It keeps the stage directions and speaker
+  turns and deliberately ignores the 12-shot production packet. Paste it into
+  Ezclip's Create form; Ezclip shows each speaker and picks a voice by language
+  and gender.
+- **Copy dialogue** copies the older labeled dialogue script. It excludes shot
+  lists and production notes.
 - **Copy full** copies the whole production document.
 - **Download .md** saves the whole document.
 
-The footer shows the dialogue character count. If your video tool has a 2,500-
-character limit, use **Copy dialogue**: the full document is longer only because
-it includes shot lists, voice direction, and thumbnail notes.
-
-The writer saves a copy to `scripts/generated/`. It is an AI draft; review it
-against the quality gate before production.
+The writer saves a copy to `scripts/generated/`. It is an AI draft; the gate
+panel is the record of what the second reader found.
 
 ## 5. Quality gate
 
@@ -71,8 +80,10 @@ Every seed has a gate status:
 - **Needs fix** — flagged for a generic breach, a twist trope, or a weak final image.
 - **Ungated** — not reviewed yet.
 
-The writer applies the gate when it drafts, but a human still reviews the result.
-No seed should become a final script until it passes.
+The writer now refuses a seed that has not passed. After writing, a second reader
+applies the flash-fiction/endings checklist and writes a gate verdict beside the
+script. A human still reviews the result; the verdict is evidence, not a
+publish button.
 
 ## 6. Launch plan
 
