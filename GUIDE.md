@@ -59,6 +59,9 @@ One rule at a time. This is the fastest way to clear a volume.
 - Review the draft. Edit it if needed.
 - Chacha appears only in the cold open and the return. No narrator inside the story.
 - **Save draft** keeps the script in this browser.
+- New drafts write dialogue in **Hindi Devanagari**, not Roman transliteration.
+  For an older Roman draft, click **Hindi script** first; it converts only the
+  dialogue and leaves the English stage directions and structure intact.
 - **Copy for Ezclip** converts the story — cold open, story scenes, return —
   into Ezclip's multi-speaker format. It keeps the stage directions and speaker
   turns and deliberately ignores the 12-shot production packet. Paste it into
