@@ -44,6 +44,7 @@ export default function ScriptBuilder({
   const [genWarnings, setGenWarnings] = useState([]);
   const [genQuality, setGenQuality] = useState(null);
   const [gateChecking, setGateChecking] = useState(false);
+  const [transliterating, setTransliterating] = useState(false);
   const qualityPollRef = useRef(null);
 
   const selectedRule = rules.find((rule) => rule.id === selectedId) || rules[0];
@@ -128,6 +129,27 @@ export default function ScriptBuilder({
       showToast("Ezclip story copied — paste it into Create");
     } catch (error) {
       showToast(error.message || "Could not build the Ezclip story");
+    }
+  }
+
+  async function convertToDevanagari() {
+    if (transliterating) return;
+    setTransliterating(true);
+    try {
+      const response = await fetch("/api/transliterate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ script }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Could not convert the script.");
+      setScript(data.script);
+      setDrafts((current) => ({ ...current, [selectedRule.id]: data.script }));
+      showToast("Dialogue converted to Devanagari");
+    } catch (error) {
+      showToast(error.message || "Could not convert the script");
+    } finally {
+      setTransliterating(false);
     }
   }
 
@@ -311,8 +333,8 @@ export default function ScriptBuilder({
 
               <div className="script-tip">
                 <Wand2 size={15} />
-                Write dialogue in Urdu. Chacha appears only in the cold open and the
-                return. No narrator inside the story.
+                Write dialogue in Hindi (Devanagari). Chacha appears only in the cold
+                open and the return. No narrator inside the story.
               </div>
               <div className="writer-note">
                 Writer: DeepSeek V4.1 Flash · flash-fiction + endings gate
@@ -414,6 +436,14 @@ export default function ScriptBuilder({
                 <div className="script-footer-actions">
                   <button className="btn btn-small" onClick={saveNow}>
                     <FileText size={14} /> Save draft
+                  </button>
+                  <button
+                    className="btn btn-small"
+                    onClick={convertToDevanagari}
+                    disabled={transliterating}
+                  >
+                    {transliterating ? <Loader2 size={14} className="spin" /> : <Wand2 size={14} />}
+                    {transliterating ? "Converting…" : "Hindi script"}
                   </button>
                   <button className="btn btn-small" onClick={copyDialogue}>
                     <Copy size={14} /> Copy dialogue

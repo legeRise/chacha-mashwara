@@ -41,6 +41,7 @@ OPENCODE = os.environ.get(
 )
 MAX_SCRIPT_SECONDS = 360
 MAX_CRITIC_SECONDS = 300
+MAX_TRANSLIT_SECONDS = 300
 MAX_PER_HOUR = 12
 MAX_ACTIVE = 1
 QUALITY_GATE_FILE = ROOT / "engine" / "script-quality.md"
@@ -88,7 +89,7 @@ THE SHOW
 - Chacha Mashwara is the host. He appears only in the cold open and the return.
 - The story is fully dramatized with 2-4 speaking characters. No narrator.
 - Chacha never appears inside the story.
-- Dialogue in natural Roman Urdu. Stage directions in English.
+- Dialogue in natural Hindi using Devanagari script. Stage directions and speaker names in English. Never write Roman transliteration; Hindi/Urdu words must be written in Devanagari.
 - The rule is the title. The final image is silent and held for two seconds.
 - No gore, no religious disrespect, no real names, no children harmed on screen.
 - Never show or explain the entity. The horror is in an ordinary object and a human choice.
@@ -332,6 +333,50 @@ def critique(rule: dict, script: str) -> dict:
     return _parse_critic(parse_opencode_output(proc.stdout))
 
 
+TRANSLIT_PROMPT = """You are a Hindi/Urdu script editor.
+
+Transliterate every Roman-script Hindi/Urdu line in the Markdown script below
+into Devanagari. Do not translate, summarize, rewrite, or change the story.
+Keep every heading, speaker name, English stage direction, Markdown marker,
+shot list, production note and number exactly as it is. Only Roman Hindi/Urdu
+dialogue becomes Devanagari.
+
+Return only the Markdown script, with no preamble and no code fences.
+
+SCRIPT
+{script}
+"""
+
+
+def transliterate(script: str) -> str:
+    """Convert a Roman-script Chacha script to Devanagari, preserving structure."""
+    prompt = TRANSLIT_PROMPT.format(script=script)
+    with tempfile.TemporaryDirectory(prefix="chacha-translit-") as workdir:
+        proc = subprocess.run(
+            [
+                OPENCODE,
+                "run",
+                "--format",
+                "json",
+                "--auto",
+                "-m",
+                MODEL,
+                prompt,
+            ],
+            cwd=workdir,
+            capture_output=True,
+            text=True,
+            timeout=MAX_TRANSLIT_SECONDS,
+            env={**os.environ, "HOME": os.environ.get("HOME", "/home/ubuntu")},
+        )
+    if proc.returncode != 0:
+        raise RuntimeError((proc.stderr or proc.stdout or "transliteration failed")[-800:])
+    result = parse_opencode_output(proc.stdout)
+    if not result.strip():
+        raise RuntimeError("transliteration returned an empty script")
+    return result.strip()
+
+
 def generate(rule: dict) -> tuple[str, Path, list[str], dict]:
     prompt = prompt_for(rule)
     started = time.time()
@@ -504,6 +549,23 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(200, {"script": script_to_ezclip(script)})
             except Exception as exc:  # noqa: BLE001
                 self._json(400, {"error": f"could not convert the script: {exc}"})
+            return
+        if path == "/api/transliterate":
+            try:
+                length = int(self.headers.get("content-length", "0"))
+                if length > 30_000:
+                    self._json(413, {"error": "script too large"})
+                    return
+                body = json.loads(self.rfile.read(length) or b"{}")
+                script = str(body.get("script") or "")
+                if not script.strip():
+                    self._json(400, {"error": "script required"})
+                    return
+                self._json(200, {"script": transliterate(script)})
+            except subprocess.TimeoutExpired:
+                self._json(504, {"error": "transliteration timed out; try again"})
+            except Exception as exc:  # noqa: BLE001
+                self._json(502, {"error": str(exc)})
             return
         if path != "/api/generate":
             self._json(404, {"error": "not found"})
