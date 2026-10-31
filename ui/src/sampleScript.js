@@ -5,7 +5,7 @@ export const SAMPLE_SCRIPTS = {
 
 **Runtime target:** 55-65 seconds
 **Chacha location:** A tea stall before dawn
-**Story cast:** YOUNG MAN (late 20s); SISTER (his sister, live on the phone); THE VOICE (her voice, without her)
+**Story cast:** HAMZA (late 20s, Ayesha's brother); AYESHA (his sister, on the phone)
 **No narrator. No Chacha inside the story.**
 
 ## 0:00-0:09 — COLD OPEN
@@ -28,150 +28,167 @@ He sets the glass down. It rings once against the wood.
 CHACHA
 आवाज़ सीख लेती है।
 
-TITLE CARD: **NEVER ANSWER THE DOOR AFTER MIDNIGHT**
-
 ## 0:09-0:48 — THE STORY
 
-### Scene 1 — Normal
+### Scene 1 — The Empty Chair
 
 **INT. FLAT ABOVE TAILOR'S SHOP — 11:52 PM**
 
 One room. A ceiling fan turns without hurry. On the low table: a plate covered by another plate, and a small gold-edged place card propped against it. **BHAI** in gold. The card smells of attar.
 
-A sherwani hangs on the back of the door, still sealed in dry-cleaner plastic.
+A sherwani hangs on the back of the door, still sealed in dry-cleaner plastic. A suitcase sits by the sofa, unopened.
 
-The YOUNG MAN sits on the floor, back against the sofa. He reaches for the card. His thumb covers the gold letters.
+HAMZA sits on the floor, back against the sofa. He reaches for the card. His thumb covers the gold letters.
 
-His phone lights up. **APA.**
+HAMZA
+आपा की शादी है... और मैं यहाँ हूँ।
 
-He answers.
+### Scene 2 — The Call
 
-SISTER (PHONE)
+**INT. FLAT ABOVE TAILOR'S SHOP — 11:56 PM**
+
+The phone on the low table lights up. **APA.** The wedding card lies face up beside it.
+
+He picks it up. The screen throws white light on his face.
+
+HAMZA
+हाँ?
+
+AYESHA (PHONE)
 (over shehnai and crowd)
 भाई? सुन रहे हो?
 
-YOUNG MAN
+HAMZA
 हाँ।
 
-SISTER (PHONE)
+AYESHA (PHONE)
 तुम्हारी कुर्सी खाली है। सब पूछ रहे हैं।
 
-YOUNG MAN
+HAMZA
 मैं नहीं आ रहा।
 
-SISTER (PHONE)
+### Scene 3 — The Refusal
+
+**INT. FLAT ABOVE TAILOR'S SHOP — 11:58 PM**
+
+AYESHA (PHONE)
 नाराज़ हो?
 
-YOUNG MAN
+HAMZA
 नहीं।
 
-SISTER (PHONE)
+AYESHA (PHONE)
 फिर आओ। वक़्त है अभी।
 
-YOUNG MAN
-आपा, मैं—
+HAMZA
+आपा, मैं तुम्हारी शादी में नहीं आया... और अब भी नहीं आ रहा। माफ़ कर दो।
 
-Click. The shehnai cuts.
+AYESHA (PHONE)
+(quiet)
+हम्म।
 
-He sits with the phone at his ear. Then he stands, crosses to the sherwani, and reaches for the plastic.
+The phone has gone dark in his hand.
+
+He sits with the phone at his ear, the wedding card in his other hand. Then he stands, crosses to the sherwani, and reaches for the plastic.
+
+### Scene 4 — Three Knocks
+
+**INT. FLAT — 12:01 AM**
+
+He freezes, hand inside the plastic. The room is lit by one lamp. The chain is still on the door.
 
 Three knocks.
 
-### Scene 2 — The breach
-
-He freezes, hand inside the plastic.
-
-THE VOICE
-(through the door, muffled, exactly the sister's)
-भाई... खोलो।
-
 He crosses to the door. Stops an arm's length away.
 
-YOUNG MAN
+HAMZA
 कौन?
 
-THE VOICE
-मैं। बाहर ठंड है।
+### Scene 5 — Her Voice
 
-YOUNG MAN
+**INT. FLAT — 12:02 AM**
+
+The door from inside. Hamza's eye at the peephole, his hand hovering near the chain. The corridor light is off.
+
+VOICE OF AYESHA
+(through the door, muffled, exactly Ayesha's)
+भाई... खोलो।
+
+HAMZA
 अभी तुमने कॉल किया। तुम हॉल में हो।
 
-THE VOICE
+VOICE OF AYESHA
 निकल आई। टैक्सी से।
 
 A soft sound against the door — cloth dragging, then stopping.
 
-YOUNG MAN
+HAMZA
 फ़ोन क्यों नहीं उठा रही?
 
-THE VOICE
+VOICE OF AYESHA
 बैटरी मर गई। बस खोलो।
 
-He dials. One ring. Then the recorded voice: *\\"यह नंबर अभी दस्तियाब नहीं है।\\"* He lowers the phone.
+### Scene 6 — The Chain
 
-YOUNG MAN
+**INT. FLAT — 12:03 AM**
+
+He looks at the place card on the table. Picks it up. Gold letters under his thumb.
+
+He dials, listens, then lowers the dead phone.
+
+HAMZA
 आपा... मैं माफ़ी—
 
-THE VOICE
+VOICE OF AYESHA
 मैंने तुम्हें माफ़ कर दिया।
 
 He stops breathing.
 
-### Scene 3 — Escalation
+His hand goes to the chain. The metal is cold. The phone clock reads **12:03 AM**.
 
-He looks at the place card on the table. Picks it up. Gold letters under his thumb.
+### Scene 7 — The Empty Corridor
 
-At the door, he slides the chain. The metal is cold.
+**INT. FLAT — 12:04 AM**
 
-YOUNG MAN
-(low)
-तुम्हें नाराज़ होना चाहिए।
+His hand slides the chain. The bolt turns.
 
-THE VOICE
-थी। अब नहीं।
-
-A beat.
-
-YOUNG MAN
-सच?
-
-THE VOICE
-सच।
-
-The bolt slides. He pulls the door.
-
-YOUNG MAN
-(under his breath)
-मैं आ रहा हूँ।
-
-### Scene 4 — The twist
+He pulls the door.
 
 The corridor is empty. The tube light ticks. The landing floor is dry.
 
 He stands in the doorway, card in hand.
 
-From the stairwell below — his own voice, flat, without breath:
+HAMZA
+आपा?
 
-HIS VOICE
+Beyond him, the stairwell drops into darkness. The tube light does not reach the bottom.
+
+VOICE OF HAMZA
 मैं नहीं आ रहा।
 
-He steps back. The phone rings in his hand. **APA.**
+He steps back.
+
+### Scene 8 — The Inside Voice
+
+**INT. FLAT — 12:05 AM**
+
+The phone lights up in his hand. **APA.**
 
 He answers.
 
-SISTER (PHONE)
+AYESHA (PHONE)
 (shehnai, laughter)
 भाई! मैं स्टेज पे हूँ। तुम कहाँ हो?
 
-YOUNG MAN
+HAMZA
 तुम... बाहर नहीं हो?
 
-SISTER (PHONE)
+AYESHA (PHONE)
 क्या? भाई, आवाज़ कैसी—
 
-Behind him, inside the flat, close and soft:
+Behind him, the kitchen light is on. A chair is pulled out. The plate on the table is empty.
 
-THE VOICE
+VOICE OF HAMZA
 भाई... अंदर आ जाओ।
 
 He turns.
@@ -202,49 +219,20 @@ He looks at the empty glass.
 CHACHA
 रूल याद रखना।
 
-## FINAL IMAGE
-
-**WIDE FROM INSIDE THE FLAT, LOW ANGLE — 0:58-1:00**
-
-The door stands open. Beyond it, the corridor is empty and white under the tube light. On the threshold, the place card lies face-down, its gold edge in the dust. Beside it, the phone glows. The call timer climbs.
-
-No sound.
-
-HOLD TWO SECONDS.
-
-CUT TO BLACK.
-
 ## Production notes
 
 ### Voice direction
 
-- **CHACHA:** Low, dry, close to the mic. He speaks like a man remembering, not warning. No sing-song, no hurry. The rule lines land on the exhale.
-- **YOUNG MAN:** Late 20s. Breath high in the throat. Volume drops as he nears the door; \\"Main aa raha hoon\\" is almost inaudible.
-- **SISTER (PHONE):** Bright, fast, talking over the shehnai. The cut on \\"Apa, main—\\" must feel like a door closing.
-- **THE VOICE:** The same actress as the sister, recorded dry. Same timbre, but a half-beat late and no breath between sentences — as if reading her from memory. Never a growl. Never a whisper. The final inside line is warm, pleased, close-mic.
-- **HIS VOICE (STAIRWELL):** An exact, flat copy of the young man's earlier line. No emotion. No echo.
+- **CHACHA:** Low, dry, close to the mic. He speaks like a man remembering, not warning.
+- **HAMZA:** Late 20s. Breath high in the throat. The guilt line about the wedding is quiet, not shouted.
+- **AYESHA (PHONE):** Bright, fast, talking over the shehnai. The cut on "हम्म" must feel like a door closing.
+- **VOICE OF AYESHA:** The same voice as Ayesha, recorded dry. Same timbre, a half-beat late, no breath between sentences.
+- **VOICE OF HAMZA:** An exact, flat copy of Hamza's earlier refusal. No emotion. No echo.
 
-### Shot list
-
-1. **0:00-0:09** — Slow push: tea glass and steam, rising to Chacha's face. Title card lands on \\"Awaz seekh leti hai.\\"
-2. **0:09-0:13** — Insert: place card propped against the covered plate. Phone light sweeps across the gold **BHAI**.
-3. **0:13-0:18** — Wide: the flat, the sealed sherwani, the young man on the floor. He reaches for the plastic.
-4. **0:18-0:22** — Close: phone at his ear. \\"Apa, main—\\" Click. He holds the dead phone.
-5. **0:22-0:26** — Door from inside: three knocks. His hand hovers over the chain. The cloth drags once.
-6. **0:26-0:30** — Close: the voicemail in his ear. His jaw tightens. He lowers the phone.
-7. **0:30-0:35** — Insert: the place card lifted, thumb over the letters. The chain slides; the bolt turns.
-8. **0:35-0:40** — The door swings in. Empty corridor. Tube light ticking. Dry floor. He does not step out.
-9. **0:40-0:44** — His face in the doorway. From below, his own voice. The phone rings: **APA**.
-10. **0:44-0:48** — He answers. Shehnai through the speaker. He turns toward the inside voice. The phone falls.
-11. **0:48-0:58** — Return: Chacha, the empty glass, the grey edge of the sky.
-12. **0:58-1:00** — Final image: open door, empty corridor, face-down card, glowing phone. Hold. Cut.
-
-### Sound and thumbnail
+### Sound
 
 - No music until the door opens. Room tone: ceiling fan, a fridge hum, the tailor's shutter, one distant dog.
-- Shehnai exists only through the phone speaker, slightly clipped. When the sister hangs up, the room goes smaller.
-- The knock is soft and flat, like a hand, not knuckles. The chain and bolt are louder than they should be.
+- Shehnai exists only through the phone speaker, slightly clipped. When Ayesha hangs up, the room goes smaller.
 - At the door opening, drop the room tone. Leave only the tube light's tick.
-- The final image is absolute silence: no ringtone, no call audio, no score. The timer climbs on screen alone.
-- **Thumbnail:** vertical close-up of the place card face-down on the threshold, gold edge visible, phone glowing beside it, open door and white corridor behind. Text: **DARWAZA MAT KHOLNA.**`,
+- The final image is absolute silence: no ringtone, no call audio, no score.`,
 };
