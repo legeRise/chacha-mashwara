@@ -77,8 +77,7 @@ python3 tools/quality_gate.py --apply    # write flags/status back
 python3 tools/build_catalog.py           # merge quality fields into rules.json
 ```
 
-The UI has a **Write full script** button. It calls the local writer service and
-saves a draft to `scripts/generated/`. Generated drafts still need review before
+The UI has a **Write full script** button. It calls the local writer service — DeepSeek V4.1 Flash plus the flash-fiction + endings gate — and saves a draft to `scripts/generated/`. Generated drafts still need review before
 production.
 
 ## Run the UI

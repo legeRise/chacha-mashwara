@@ -45,7 +45,8 @@ One rule at a time. This is the fastest way to clear a volume.
 
 - Pick a rule from the left list.
 - Click **Write full script**.
-- The server writer reads the seed and writes the whole episode: cold open,
+- The server writer (DeepSeek V4.1 Flash, using the flash-fiction + endings gate)
+  reads the seed and writes the whole episode: cold open,
   dialogue, twist, verdict, shot list.
 - Wait about 30–90 seconds.
 - Review the draft. Edit it if needed.

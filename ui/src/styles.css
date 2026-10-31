@@ -1832,6 +1832,15 @@ body.drawer-open {
   color: var(--amber);
 }
 
+
+.writer-note {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 /* launch */
 
 .launch-page-head {

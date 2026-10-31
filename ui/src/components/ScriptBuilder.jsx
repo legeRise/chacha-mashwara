@@ -144,7 +144,7 @@ export default function ScriptBuilder({
         <div>
           <div className="eyebrow">Production</div>
           <h1>Script builder</h1>
-          <p>Pick a rule. The template gives you the cold open, story beats, cast, and verdict.</p>
+          <p>Pick a rule. The server writer uses DeepSeek V4.1 Flash and the flash-fiction + endings gate to write the full episode.</p>
         </div>
         {selectedRule ? (
           <div className="script-head-meta">
@@ -231,6 +231,9 @@ export default function ScriptBuilder({
                 <Wand2 size={15} />
                 Write dialogue in Urdu. Chacha appears only in the cold open and the
                 return. No narrator inside the story.
+              </div>
+              <div className="writer-note">
+                Writer: DeepSeek V4.1 Flash · flash-fiction + endings gate
               </div>
 
               {generating ? (

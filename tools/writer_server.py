@@ -32,7 +32,7 @@ ROOT = Path(__file__).resolve().parent.parent
 RULES_FILE = ROOT / "rules" / "rules.json"
 OUT_DIR = ROOT / "scripts" / "generated"
 PORT = int(os.environ.get("PORT", "8787"))
-MODEL = os.environ.get("WRITER_MODEL", "opencode-go/claude-haiku-5-5")
+MODEL = os.environ.get("WRITER_MODEL", "opencode-go/deepseek-v4.1-flash")
 OPENCODE = os.environ.get(
     "OPENCODE_BIN",
     "/home/ubuntu/.opencode/bin/opencode",
@@ -40,6 +40,7 @@ OPENCODE = os.environ.get(
 MAX_SCRIPT_SECONDS = 300
 MAX_PER_HOUR = 12
 MAX_ACTIVE = 1
+QUALITY_GATE_FILE = ROOT / "engine" / "script-quality.md"
 
 _lock = threading.Lock()
 _active = 0
@@ -64,9 +65,21 @@ def slugify(text: str) -> str:
 
 
 def prompt_for(rule: dict) -> str:
+    gate = ""
+    if QUALITY_GATE_FILE.exists():
+        gate = QUALITY_GATE_FILE.read_text(encoding="utf-8")
     return f"""You are the head writer for "Chacha Mashwara", a Pakistani Urdu short horror series for YouTube Shorts.
 
 Write ONE complete episode script in Markdown, 55-65 seconds when read aloud, based on the seed below.
+
+MANDATORY CRAFT SKILLS
+You must write this script through the project's `flash-fiction` and `endings`
+diagnostics. Apply FF1-FF9 and E1-E6 as hard requirements, not suggestions. The
+full script quality gate is included below. Every checkbox is mandatory.
+
+BEGIN SCRIPT QUALITY GATE
+{gate}
+END SCRIPT QUALITY GATE
 
 THE SHOW
 - Chacha Mashwara is the host. He appears only in the cold open and the return.
@@ -77,15 +90,15 @@ THE SHOW
 - No gore, no religious disrespect, no real names, no children harmed on screen.
 - Never show or explain the entity. The horror is in an ordinary object and a human choice.
 
-QUALITY GATE — the script must pass all of this
-1. The protagonist has a specific want and a concrete object/motif that carries subtext.
-2. The breach is sympathetic: love, guilt, fear, politeness, need, pride, or hope. Never mere curiosity.
-3. The twist is caused by the protagonist's choice, not a random event.
-4. Fix any logic problem in the seed. Characters know only what they can know.
-5. The verdict is one sentence and names the mistake, not the monster.
-6. The final image pays off the object/motif.
-7. No narrator, no Chacha inside the story.
-8. 55-65 seconds, 10-12 shots.
+ADDITIONAL SHOW RULES
+- The protagonist has a specific want and a concrete object/motif that carries subtext.
+- The breach is sympathetic: love, guilt, fear, politeness, need, pride, or hope. Never mere curiosity.
+- The twist is caused by the protagonist's choice, not a random event.
+- Fix any logic problem in the seed. Characters know only what they can know.
+- The verdict is one sentence and names the mistake, not the monster.
+- The final image pays off the object/motif.
+- No narrator, no Chacha inside the story.
+- 55-65 seconds, 10-12 shots.
 
 THE SEED
 - ID: {rule.get('id','')}
