@@ -47,7 +47,7 @@ URL is `https://chacha.ez-clip.ovh/`.
 
 The **Write full script** button calls `tools/writer_server.py` through `/api/`.
 The server asks DeepSeek V4.1 Flash (via the local `opencode` CLI) to write a quality-gated script using the full flash-fiction + endings gate and
-saves it to `scripts/generated/`. It takes roughly 1–3 minutes.
+saves it to `scripts/generated/`. It takes roughly 2–5 minutes.
 
 Run it locally:
 

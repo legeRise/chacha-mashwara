@@ -58,7 +58,7 @@ export default function Guide() {
         <ol>
           <li>Pick a rule from the left list.</li>
           <li>Click <strong>Write full script</strong>. The server writer reads the seed and writes the whole episode — cold open, dialogue, twist, verdict, shot list.</li>
-          <li>Wait about 1–3 minutes. The draft appears in the editor.</li>
+          <li>Wait about 2–5 minutes. The draft appears in the editor.</li>
           <li>Review it. Edit it. Use <strong>Save draft</strong>, <strong>Copy</strong>, or <strong>Download .md</strong>.</li>
         </ol>
         <p>

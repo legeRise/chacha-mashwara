@@ -37,7 +37,7 @@ OPENCODE = os.environ.get(
     "OPENCODE_BIN",
     "/home/ubuntu/.opencode/bin/opencode",
 )
-MAX_SCRIPT_SECONDS = 300
+MAX_SCRIPT_SECONDS = 420
 MAX_PER_HOUR = 12
 MAX_ACTIVE = 1
 QUALITY_GATE_FILE = ROOT / "engine" / "script-quality.md"

@@ -241,7 +241,7 @@ export default function ScriptBuilder({
                   <Loader2 size={16} className="spin" />
                   <div>
                     <strong>Writing the full script…</strong>
-                    <span>Cold open → breach → twist → verdict. About 1–3 minutes.</span>
+                    <span>Cold open → breach → twist → verdict. About 2–5 minutes.</span>
                   </div>
                 </div>
               ) : null}

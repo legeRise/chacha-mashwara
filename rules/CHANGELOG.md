@@ -67,3 +67,10 @@ The source row is edited, the catalog is rebuilt, and this file is updated.
   to `scripts/generated/`.
 - `rules.json` now includes `gate_status`, `seed_score`, `want`, `object_motif`,
   `theme`, `verdict`, and `gate_flags`.
+
+## 2026-10-31 — Writer model and craft skills
+
+- Switched the on-demand writer to **DeepSeek V4.1 Flash**.
+- The writer prompt now includes the full **flash-fiction (FF1–FF9)** and
+  **endings (E1–E6)** quality gate from `engine/script-quality.md`.
+- Writer drafts are still AI drafts and must be reviewed before production.
