@@ -34,6 +34,7 @@ batches/            Monthly generation batches
 templates/          Episode script template
 analytics/          Monthly reviews
 tools/              Build + validation scripts
+deploy/             nginx snippet for the hosted UI
 ui/                 Local review + production UI (React + Vite)
 ```
 
@@ -58,6 +59,8 @@ Source of truth: `rules/source/volume-*.psv`. Edit there, then rebuild. Do not e
 
 ## Run the UI
 
+**Live:** https://openchamber.ez-clip.ovh/chacha/
+
 ```bash
 cd ui
 npm install
@@ -65,6 +68,7 @@ npm run dev
 ```
 
 Open `http://localhost:5173`. See `ui/README.md` for the screens and shortcuts.
+To publish changes on this server: `./tools/deploy_ui.sh`.
 
 ## Status
 

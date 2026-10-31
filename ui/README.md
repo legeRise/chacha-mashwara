@@ -2,7 +2,9 @@
 
 A local review and production tool for the rulebook.
 
-## Run it
+**Live:** https://openchamber.ez-clip.ovh/chacha/
+
+## Run it locally
 
 ```bash
 cd ui
@@ -22,6 +24,15 @@ npm run build
 ```
 
 Output lives in `ui/dist`. It is a static site; serve it with any static host.
+
+## Deploy on this server
+
+```bash
+./tools/deploy_ui.sh
+```
+
+That builds the UI, copies it to `/var/www/chacha`, and reloads nginx. The public
+URL is `https://openchamber.ez-clip.ovh/chacha/`.
 
 ## What it does
 
