@@ -40,7 +40,10 @@ export default function ScriptBuilder({
   useEffect(() => {
     if (!selectedRule) return;
     const base = SAMPLE_SCRIPTS[selectedRule.id] ?? buildScript(selectedRule);
-    setScript(drafts[selectedRule.id] ?? base);
+    const draft = drafts[selectedRule.id];
+    // Ignore auto-saved template drafts for rules that now have a finished sample.
+    const isOldTemplate = draft?.includes("[Write the rule in Urdu");
+    setScript(isOldTemplate ? base : draft ?? base);
     setSavedAt(null);
   }, [selectedRule?.id]);
 
