@@ -118,7 +118,7 @@ export default function RuleDrawer({
             />
           </div>
 
-          <button className="btn btn-ghost copy-request" onClick={copyRequest}>
+          <button className="btn btn-small copy-request" onClick={copyRequest}>
             <Copy size={15} /> Copy change request
           </button>
         </div>

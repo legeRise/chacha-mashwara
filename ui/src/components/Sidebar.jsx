@@ -2,6 +2,7 @@ import {
   BookOpen,
   CalendarDays,
   FileText,
+  HelpCircle,
   LayoutDashboard,
   Zap,
 } from "lucide-react";
@@ -14,6 +15,7 @@ const NAV = [
   { id: "review", label: "Review", icon: Zap },
   { id: "script", label: "Script builder", icon: FileText },
   { id: "launch", label: "Launch plan", icon: CalendarDays },
+  { id: "guide", label: "Guide", icon: HelpCircle },
 ];
 
 export default function Sidebar({ route, navigate, counts, total }) {

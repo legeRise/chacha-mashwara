@@ -6,6 +6,7 @@ import ReviewDeck from "./components/ReviewDeck.jsx";
 import ScriptBuilder from "./components/ScriptBuilder.jsx";
 import LaunchPlan from "./components/LaunchPlan.jsx";
 import RuleDrawer from "./components/RuleDrawer.jsx";
+import Guide from "./components/Guide.jsx";
 import {
   STATUS_META,
   familyCounts,
@@ -15,7 +16,7 @@ import {
 } from "./lib.js";
 import { useLocalStorage } from "./useLocalStorage.js";
 
-const ROUTES = new Set(["dashboard", "browse", "review", "script", "launch"]);
+const ROUTES = new Set(["dashboard", "browse", "review", "script", "launch", "guide"]);
 
 function currentRoute() {
   const hash = window.location.hash.replace(/^#\/?/, "");
@@ -256,6 +257,8 @@ export default function App() {
               showToast={showToast}
             />
           ) : null}
+
+          {route === "guide" ? <Guide /> : null}
         </div>
       </main>
 

@@ -45,6 +45,7 @@ ui/                 Local review + production UI (React + Vite)
 3. Open `rules/rules.csv` — the master catalog.
 4. Review Volume 1 in `rules/volumes/01-ghar.md` and `batches/2026-11-volume-01.md`.
 5. Use `templates/episode-script.md` to turn a rule into a script.
+6. For the UI, see `GUIDE.md` or the in-app **Guide** page.
 
 ## Build & validate
 
