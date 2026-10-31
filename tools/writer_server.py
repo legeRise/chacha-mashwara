@@ -28,6 +28,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
+from ezclip_export import script_to_ezclip
+
 ROOT = Path(__file__).resolve().parent.parent
 RULES_FILE = ROOT / "rules" / "rules.json"
 OUT_DIR = ROOT / "scripts" / "generated"
@@ -37,7 +39,8 @@ OPENCODE = os.environ.get(
     "OPENCODE_BIN",
     "/home/ubuntu/.opencode/bin/opencode",
 )
-MAX_SCRIPT_SECONDS = 420
+MAX_SCRIPT_SECONDS = 360
+MAX_CRITIC_SECONDS = 300
 MAX_PER_HOUR = 12
 MAX_ACTIVE = 1
 QUALITY_GATE_FILE = ROOT / "engine" / "script-quality.md"
@@ -197,7 +200,139 @@ def validate(script: str) -> list[str]:
     return issues
 
 
-def generate(rule: dict) -> tuple[str, Path]:
+def seed_gate_error(rule: dict) -> str:
+    """The hard rule: an unfinished seed never becomes a script."""
+    status = (rule.get("gate_status") or "ungated").strip().lower()
+    if status == "passed":
+        return ""
+    flags = (rule.get("gate_flags") or "").strip()
+    return (
+        f"Seed {rule.get('id', '')} has not passed the seed gate "
+        f"(status: {status}). {flags or 'Fix the missing want, object, theme and verdict first.'}"
+    )
+
+
+CRITIC_PROMPT = """You are the story gate for "Chacha Mashwara", a 55-65 second Pakistani Urdu horror series.
+
+Judge the SCRIPT below against this checklist. Be strict and evidence-based.
+Return JSON only, no prose, no code fences:
+
+{{
+  "pass": true,
+  "issues": [
+    {{"code": "FF9", "severity": "critical", "evidence": "exact line or event", "fix": "what must change"}}
+  ],
+  "summary": "one sentence"
+}}
+
+CHECKLIST
+FF1 structure/pacing: opening hooks, clear turn, every beat does more than one job, scope fits 55-65s.
+FF2 character: one specific want in the first 5 seconds; sympathetic breach; concrete object; relationship shown, not explained.
+FF3 frame: cold open promises the story; final image answers it; first/last images rhyme.
+FF4 subtext: at least one important thing is implied; an object carries the unspoken; the entity offers what the protagonist wants.
+FF5 imagery: one recurring motif that changes meaning; no cliché horror language.
+FF6 setting: specific place; at least two senses; setting reveals character state.
+FF7 theme: embodied in the choice, not stated; verdict complicates rather than explains.
+FF8 language: precise verbs; natural spoken dialogue; varied rhythm; no line repeats information.
+FF9 logic: characters know only what they can know; timeline works; doors, phones and locks behave consistently; the twist does not depend on stupidity.
+E1 ending grows from the character's choice and the established rule; not random.
+E2 the what may be familiar, but the how must surprise.
+E3 the protagonist's choice causes the consequence; no luck, no new power, no rescue.
+E4 the central dramatic question is answered; no new mystery in the last five seconds.
+E5 no theme speech, no epilogue; end on image.
+E6 climax, verdict, final image; nothing after.
+
+SHOW RULES
+- Chacha appears only in the cold open and the return. He is never inside the story.
+- No narrator. The story is dramatized with 2-4 voices.
+- One rule, one breach, one twist, one verdict. The verdict is one sentence.
+- The final image is a silent shot, held for two seconds.
+- Never show or explain the entity.
+
+SEED
+ID: {rule_id}
+Rule: {rule}
+Consequence: {consequence}
+Want: {want}
+Object/motif: {object_motif}
+Theme: {theme}
+Verdict: {verdict}
+
+SCRIPT
+{script}
+"""
+
+
+def _parse_critic(text: str) -> dict:
+    cleaned = re.sub(r"^```(?:json)?\s*", "", (text or "").strip(), flags=re.I)
+    cleaned = re.sub(r"\s*```$", "", cleaned).strip()
+    try:
+        data = json.loads(cleaned)
+    except json.JSONDecodeError:
+        start = cleaned.find("{")
+        end = cleaned.rfind("}")
+        if start < 0 or end <= start:
+            return {"pass": None, "issues": [], "summary": "Critic returned no JSON."}
+        try:
+            data = json.loads(cleaned[start : end + 1])
+        except json.JSONDecodeError:
+            return {"pass": None, "issues": [], "summary": "Critic returned invalid JSON."}
+    if not isinstance(data, dict):
+        return {"pass": None, "issues": [], "summary": "Critic returned no object."}
+    issues = data.get("issues") or []
+    if not isinstance(issues, list):
+        issues = []
+    return {
+        "pass": data.get("pass") if isinstance(data.get("pass"), bool) else None,
+        "issues": issues[:12],
+        "summary": str(data.get("summary") or "")[:500],
+        "checked_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+    }
+
+
+def critique(rule: dict, script: str) -> dict:
+    """A second reader. The writer prompt is not a verifier."""
+    prompt = CRITIC_PROMPT.format(
+        rule_id=rule.get("id", ""),
+        rule=rule.get("rule", ""),
+        consequence=rule.get("consequence", ""),
+        want=rule.get("want") or "(missing)",
+        object_motif=rule.get("object_motif") or "(missing)",
+        theme=rule.get("theme") or "(missing)",
+        verdict=rule.get("verdict") or "(missing)",
+        script=script,
+    )
+    with tempfile.TemporaryDirectory(prefix="chacha-critic-") as workdir:
+        try:
+            proc = subprocess.run(
+                [
+                    OPENCODE,
+                    "run",
+                    "--format",
+                    "json",
+                    "--auto",
+                    "-m",
+                    MODEL,
+                    prompt,
+                ],
+                cwd=workdir,
+                capture_output=True,
+                text=True,
+                timeout=MAX_CRITIC_SECONDS,
+                env={**os.environ, "HOME": os.environ.get("HOME", "/home/ubuntu")},
+            )
+        except subprocess.TimeoutExpired:
+            return {"pass": None, "issues": [], "summary": "Critic timed out; gate not verified."}
+    if proc.returncode != 0:
+        return {
+            "pass": None,
+            "issues": [],
+            "summary": f"Critic failed: {(proc.stderr or proc.stdout or '')[-300:]}",
+        }
+    return _parse_critic(parse_opencode_output(proc.stdout))
+
+
+def generate(rule: dict) -> tuple[str, Path, list[str], dict]:
     prompt = prompt_for(rule)
     started = time.time()
     with tempfile.TemporaryDirectory(prefix="chacha-writer-") as workdir:
@@ -234,7 +369,43 @@ def generate(rule: dict) -> tuple[str, Path]:
         f"{rule['id']} · {time.time()-started:.1f}s -->\n\n"
     )
     path.write_text(header + script + "\n", encoding="utf-8")
-    return script, path, issues
+    sidecar = path.with_suffix(".gate.json")
+
+    def _write_gate(payload: dict) -> None:
+        tmp = sidecar.with_name(sidecar.name + ".tmp")
+        tmp.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        os.replace(tmp, sidecar)
+
+    pending = {
+        "id": rule.get("id"),
+        "seed_gate": rule.get("gate_status"),
+        "pass": None,
+        "issues": [],
+        "summary": "Gate check running…",
+        "checking": True,
+    }
+    _write_gate(pending)
+
+    def _finish() -> None:
+        try:
+            result = critique(rule, script)
+        except Exception as exc:  # noqa: BLE001 - the script is already saved
+            result = {
+                "pass": None,
+                "issues": [],
+                "summary": f"Critic failed: {str(exc)[-300:]}",
+            }
+        _write_gate(
+            {
+                "id": rule.get("id"),
+                "seed_gate": rule.get("gate_status"),
+                **result,
+                "checking": False,
+            }
+        )
+
+    threading.Thread(target=_finish, daemon=True).start()
+    return script, path, issues, pending
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -274,13 +445,66 @@ class Handler(BaseHTTPRequestHandler):
                 return
             script = files[-1].read_text(encoding="utf-8")
             script = re.sub(r"^<!--[\s\S]*?-->\s*", "", script)
-            self._json(200, {"id": m.group(1), "script": script})
+            quality = {}
+            sidecar = files[-1].with_suffix(".gate.json")
+            if sidecar.exists():
+                try:
+                    quality = json.loads(sidecar.read_text(encoding="utf-8"))
+                except json.JSONDecodeError:
+                    quality = {}
+            self._json(200, {"id": m.group(1), "script": script, "quality": quality})
+            return
+        m = re.match(r"^/api/quality/(R-\d{4})$", path)
+        if m:
+            files = sorted(OUT_DIR.glob(f"{m.group(1)}-*.md"))
+            if not files:
+                self._json(404, {"error": "not generated yet"})
+                return
+            sidecar = files[-1].with_suffix(".gate.json")
+            if not sidecar.exists():
+                self._json(
+                    200,
+                    {
+                        "id": m.group(1),
+                        "pass": None,
+                        "issues": [],
+                        "summary": "No gate check saved for this script.",
+                        "checking": False,
+                    },
+                )
+                return
+            try:
+                quality = json.loads(sidecar.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                quality = {
+                    "pass": None,
+                    "issues": [],
+                    "summary": "Gate check is being written…",
+                    "checking": True,
+                }
+            quality.setdefault("id", m.group(1))
+            self._json(200, quality)
             return
         self._json(404, {"error": "not found"})
 
     def do_POST(self) -> None:
         global _active
         path = urlparse(self.path).path
+        if path == "/api/ezclip":
+            try:
+                length = int(self.headers.get("content-length", "0"))
+                if length > 30_000:
+                    self._json(413, {"error": "script too large"})
+                    return
+                body = json.loads(self.rfile.read(length) or b"{}")
+                script = str(body.get("script") or "")
+                if not script.strip():
+                    self._json(400, {"error": "script required"})
+                    return
+                self._json(200, {"script": script_to_ezclip(script)})
+            except Exception as exc:  # noqa: BLE001
+                self._json(400, {"error": f"could not convert the script: {exc}"})
+            return
         if path != "/api/generate":
             self._json(404, {"error": "not found"})
             return
@@ -319,11 +543,30 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(404, {"error": "rule not found"})
                 return
 
+            gate_error = seed_gate_error(rule)
+            if gate_error:
+                self._json(
+                    409,
+                    {
+                        "error": gate_error,
+                        "gate_status": rule.get("gate_status"),
+                        "gate_flags": rule.get("gate_flags", ""),
+                    },
+                )
+                return
+
             if not body.get("force"):
                 files = sorted(OUT_DIR.glob(f"{rule_id}-*.md"))
                 if files:
                     cached = files[-1].read_text(encoding="utf-8")
                     cached = re.sub(r"^<!--[\s\S]*?-->\s*", "", cached).strip()
+                    quality = {}
+                    sidecar = files[-1].with_suffix(".gate.json")
+                    if sidecar.exists():
+                        try:
+                            quality = json.loads(sidecar.read_text(encoding="utf-8"))
+                        except json.JSONDecodeError:
+                            quality = {}
                     self._json(
                         200,
                         {
@@ -333,11 +576,12 @@ class Handler(BaseHTTPRequestHandler):
                             "model": MODEL,
                             "cached": True,
                             "warnings": [],
+                            "quality": quality,
                         },
                     )
                     return
 
-            script, path, warnings = generate(rule)
+            script, path, warnings, quality = generate(rule)
             self._json(
                 200,
                 {
@@ -346,6 +590,7 @@ class Handler(BaseHTTPRequestHandler):
                     "path": str(path.relative_to(ROOT)),
                     "model": MODEL,
                     "warnings": warnings,
+                    "quality": quality,
                 },
             )
         except subprocess.TimeoutExpired:

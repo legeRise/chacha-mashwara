@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   Check,
@@ -42,9 +42,14 @@ export default function ScriptBuilder({
   const [generatedAt, setGeneratedAt] = useState(null);
   const [genError, setGenError] = useState("");
   const [genWarnings, setGenWarnings] = useState([]);
+  const [genQuality, setGenQuality] = useState(null);
+  const [gateChecking, setGateChecking] = useState(false);
+  const qualityPollRef = useRef(null);
 
   const selectedRule = rules.find((rule) => rule.id === selectedId) || rules[0];
   const dialogue = dialogueOnly(script, selectedRule?.cast || "", selectedRule);
+  const gate = selectedRule ? getGate(selectedRule) : "ungated";
+  const canWrite = gate === "passed";
 
   useEffect(() => {
     if (!selectedRule) return;
@@ -57,7 +62,15 @@ export default function ScriptBuilder({
     setGeneratedAt(null);
     setGenError("");
     setGenWarnings([]);
+    setGenQuality(null);
+    setGateChecking(false);
+    window.clearInterval(qualityPollRef.current);
+    qualityPollRef.current = null;
   }, [selectedRule?.id]);
+
+  useEffect(() => {
+    return () => window.clearInterval(qualityPollRef.current);
+  }, []);
 
   useEffect(() => {
     if (!selectedRule) return;
@@ -102,6 +115,22 @@ export default function ScriptBuilder({
     showToast(`Dialogue copied · ${dialogue.length} chars`);
   }
 
+  async function copyForEzclip() {
+    try {
+      const response = await fetch("/api/ezclip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ script }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Could not build the Ezclip story.");
+      await copyText(data.script);
+      showToast("Ezclip story copied — paste it into Create");
+    } catch (error) {
+      showToast(error.message || "Could not build the Ezclip story");
+    }
+  }
+
   function downloadScript() {
     if (!selectedRule) return;
     downloadFile(
@@ -111,8 +140,40 @@ export default function ScriptBuilder({
     showToast("Script downloaded");
   }
 
+  function watchQuality(ruleId) {
+    window.clearInterval(qualityPollRef.current);
+    setGateChecking(true);
+    let tries = 0;
+    qualityPollRef.current = window.setInterval(async () => {
+      tries += 1;
+      try {
+        const response = await fetch(`/api/quality/${ruleId}`);
+        const quality = await response.json();
+        if (!quality.checking || tries >= 90) {
+          window.clearInterval(qualityPollRef.current);
+          qualityPollRef.current = null;
+          setGateChecking(false);
+          setGenQuality(
+            quality.checking
+              ? {
+                  ...quality,
+                  summary: quality.summary || "Gate check is still running. Refresh to see it.",
+                }
+              : quality,
+          );
+        }
+      } catch {
+        if (tries >= 90) {
+          window.clearInterval(qualityPollRef.current);
+          qualityPollRef.current = null;
+          setGateChecking(false);
+        }
+      }
+    }, 4000);
+  }
+
   async function generateFullScript() {
-    if (!selectedRule || generating) return;
+    if (!selectedRule || generating || gateChecking) return;
     setGenerating(true);
     setGenError("");
     setGenWarnings([]);
@@ -132,6 +193,12 @@ export default function ScriptBuilder({
       setDrafts((current) => ({ ...current, [selectedRule.id]: data.script }));
       setGeneratedAt(new Date());
       setGenWarnings(data.warnings || []);
+      setGenQuality(data.quality || null);
+      if (data.quality?.checking) {
+        watchQuality(selectedRule.id);
+      } else {
+        setGateChecking(false);
+      }
       showToast(`Full script written for ${selectedRule.id}`);
     } catch (error) {
       setGenError(error.message || "Writer failed");
@@ -218,7 +285,12 @@ export default function ScriptBuilder({
                   ) : null}
                 </div>
                 <div className="script-editor-actions">
-                  <button className="btn btn-small btn-primary" onClick={generateFullScript} disabled={generating}>
+                  <button
+                    className="btn btn-small btn-primary"
+                    onClick={generateFullScript}
+                    disabled={generating || gateChecking || !canWrite}
+                    title={canWrite ? "" : "This seed has not passed the seed gate."}
+                  >
                     {generating ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}
                     {generating ? "Writing…" : SAMPLE_SCRIPTS[selectedRule.id] ? "Generate new draft" : "Write full script"}
                   </button>
@@ -245,6 +317,15 @@ export default function ScriptBuilder({
               <div className="writer-note">
                 Writer: DeepSeek V4.1 Flash · flash-fiction + endings gate
               </div>
+
+              {!canWrite ? (
+                <div className="generation-error">
+                  <strong>Seed gate: {gate}.</strong>{" "}
+                  {selectedRule.gate_flags ||
+                    "This seed is missing a want, object, theme or verdict."}{" "}
+                  Fix the seed before writing.
+                </div>
+              ) : null}
 
               {generating ? (
                 <div className="generation-banner">
@@ -275,6 +356,42 @@ export default function ScriptBuilder({
                 </div>
               ) : null}
 
+              {genQuality ? (
+                <div
+                  className={
+                    genQuality.pass === true
+                      ? "generation-banner quality-panel"
+                      : genQuality.pass === false
+                        ? "generation-error quality-panel"
+                        : "generation-error quality-panel quality-panel-unknown"
+                  }
+                >
+                  <div>
+                    <strong>
+                      Story gate:{" "}
+                      {genQuality.pass === true
+                        ? "passed"
+                        : genQuality.pass === false
+                          ? "failed"
+                          : "not verified"}
+                    </strong>
+                    <span>{genQuality.summary || "The critic returned no summary."}</span>
+                    {Array.isArray(genQuality.issues) && genQuality.issues.length ? (
+                      <ul className="quality-issues">
+                        {genQuality.issues.map((issue, index) => (
+                          <li key={`${issue.code || "issue"}-${index}`}>
+                            <b>{issue.code || "issue"}</b>
+                            {issue.severity ? ` · ${issue.severity}` : ""}
+                            {issue.evidence ? ` — ${issue.evidence}` : ""}
+                            {issue.fix ? <em> Fix: {issue.fix}</em> : null}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </div>
+                </div>
+              ) : null}
+
               <textarea
                 className="script-textarea"
                 value={script}
@@ -300,6 +417,9 @@ export default function ScriptBuilder({
                   </button>
                   <button className="btn btn-small" onClick={copyDialogue}>
                     <Copy size={14} /> Copy dialogue
+                  </button>
+                  <button className="btn btn-small btn-primary" onClick={copyForEzclip}>
+                    <Copy size={14} /> Copy for Ezclip
                   </button>
                   <button className="btn btn-small" onClick={copyScript}>
                     <Copy size={14} /> Copy full
