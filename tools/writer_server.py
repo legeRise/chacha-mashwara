@@ -104,6 +104,7 @@ ADDITIONAL SHOW RULES
 - No narrator, no Chacha inside the story.
 - 55-65 seconds.
 - Every scene must contain at least one spoken line. Ezclip drops a scene with no DIALOGUE; if a beat is silent, give the character a whisper or a one-word line.
+- One scene, one location. Split at the door instead of putting the flat and the corridor in the same scene.
 
 CHACHA FRAME (MANDATORY — this is the show's signature)
 The cold open is Chacha talking straight to the viewer, not a trailer voice.

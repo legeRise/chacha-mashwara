@@ -21,7 +21,7 @@
 
 ## 0:09–0:48 — THE STORY
 
-### Scene 1 — Normal (0:09–0:24)
+### Scene 1 — The Phone (0:09–0:18)
 
 *INT. A GROUND-FLOOR FLAT. NIGHT. Rain on the window. A pressure cooker hisses. The floor is still wet from mopping — phenyl and water shining under the tube light.*
 
@@ -36,6 +36,8 @@
 **AMIT (V.O.):** हाँ माँ।
 
 *She hangs up. Takes a new pair of shoes off the rack, wipes a scuff off the left toe with the end of her dupatta, sets them by the door — toes pointing out, ready for him.*
+
+### Scene 2 — The Neighbour (0:18–0:24)
 
 *EXT. CORRIDOR — CONTINUOUS. SAROJ crosses with a plastic bucket. She stops.*
 
@@ -53,7 +55,7 @@
 
 **SHANTI (soft):** एक लंबी... एक छोटी।
 
-### Scene 2 — The breach (0:24–0:34)
+### Scene 3 — The breach (0:24–0:34)
 
 *BELL. One long ring.*
 
@@ -67,7 +69,7 @@
 
 *Her hand slides the chain to its full length. She opens the door a hand's width.*
 
-### Scene 3 — Escalation (0:34–0:43)
+### Scene 4 — Escalation (0:34–0:43)
 
 *The corridor is empty. Rain hits the parapet. The mat is dry. On the wall, the bell push has no button — just two bare wires, taped once and abandoned.*
 
@@ -79,7 +81,7 @@
 
 **SHANTI (to herself):** घंटी बजी कैसे?
 
-### Scene 4 — The twist (0:43–0:48)
+### Scene 5 — The twist (0:43–0:48)
 
 *BELL. One short ring — close, dry, from behind her. Inside the flat.*
 
