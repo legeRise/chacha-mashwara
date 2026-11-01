@@ -20,12 +20,16 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "scripts" / "generated"
 
 _HEADING_RE = re.compile(r"^(#{2,3})\s+(.+?)\s*$")
+# A speaker name is uppercase. A lowercase parenthetical is a performance
+# note: "AMIT (V.O., phone)" or "SHANTI (half a laugh)". An action line such as
+# "At her feet: the shoes" is mixed case and must stay visual.
+_NAME_PATTERN = r"([A-Z][A-Z0-9 '.,_\-]{1,60}?(?:\s*\([A-Za-z0-9 .,'_\-]*\))?)"
 _INLINE_RE = re.compile(
-    r"^\*{0,2}\s*([A-Z][A-Z0-9 '().,_-]{1,60}?)\s*\*{0,2}"
+    rf"^\*{{0,2}}\s*{_NAME_PATTERN}\s*\*{{0,2}}"
     r"\s*(?:\*\([^)]*\)\*)?\s*:\s*(.+)$"
 )
 _SPEAKER_ONLY_RE = re.compile(
-    r"^\*{0,2}\s*([A-Z][A-Z0-9 '().,_-]{1,60}?)\s*\*{0,2}\s*$"
+    rf"^\*{{0,2}}\s*{_NAME_PATTERN}\s*\*{{0,2}}\s*$"
 )
 _CAST_RE = re.compile(r"^CAST\s*:\s*(.+)$", re.IGNORECASE)
 _DIRECTION_RE = re.compile(r"^(?:INT|EXT)\.", re.IGNORECASE)
@@ -37,11 +41,11 @@ _STOP_NAMES = {
 }
 _FEMALE_HINTS = (
     "SISTER", "AYESHA", "NUSRAT", "APA", "WOMAN", "MOTHER", "GIRL",
-    "AUNT", "BIBI", "BEGUM",
+    "AUNT", "BIBI", "BEGUM", "SHANTI", "SAROJ",
 )
 _MALE_HINTS = (
     "CHACHA", "HAMZA", "IMRAN", "BHAI", "MAN", "FATHER", "BOY", "EYE",
-    "UNCLE", "BABA",
+    "UNCLE", "BABA", "AMIT", "SON",
 )
 
 
@@ -67,6 +71,9 @@ def _unquote(text: str) -> str:
     cleaned = _clean(text).strip()
     if len(cleaned) >= 2 and cleaned[0] in "\"'" and cleaned[-1] in "\"'":
         cleaned = cleaned[1:-1].strip()
+    # A trailing italic stage direction is not spoken. `*(goes)*` was reaching
+    # the TTS because the line was otherwise a valid speaker turn.
+    cleaned = re.sub(r"\s*\*\([^)]*\)\*\s*$", "", cleaned).strip()
     return cleaned
 
 
@@ -87,12 +94,35 @@ def _gender(name: str, cast: list[str] | None = None) -> str:
     return ""
 
 
+def _split_cast(raw: str) -> list[str]:
+    """Split a cast line on ; · newline or a comma outside parentheses.
+
+    `SHANTI (mother, 50s)` must stay one part; the comma inside the
+    parenthetical is a description, not another cast member.
+    """
+    parts: list[str] = []
+    buf: list[str] = []
+    depth = 0
+    for char in raw:
+        if char == "(":
+            depth += 1
+        elif char == ")":
+            depth = max(0, depth - 1)
+        if char in ";·\n" or (char == "," and depth == 0):
+            parts.append("".join(buf))
+            buf = []
+        else:
+            buf.append(char)
+    parts.append("".join(buf))
+    return [part.strip() for part in parts if part.strip()]
+
+
 def _cast_names(text: str) -> list[str]:
     match = re.search(r"\*\*Story cast:\*\*\s*(.+)", text, re.IGNORECASE)
     if not match:
         return []
     names = []
-    for part in re.split(r";|\n", match.group(1)):
+    for part in _split_cast(match.group(1)):
         name = _speaker_name(part)
         if name and name not in _STOP_NAMES and name not in names:
             names.append(name)
@@ -110,6 +140,7 @@ def _title_from_heading(heading: str) -> str:
         return "Return"
     value = re.sub(r"^[\d:–—\-\s]+", "", value)
     value = re.sub(r"^THE STORY\b", "", value, flags=re.I)
+    value = re.sub(r"\s*\([\d:–—\-\s]+\)\s*$", "", value)
     value = value.strip(" —-:")
     if not value:
         return ""

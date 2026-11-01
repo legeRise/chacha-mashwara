@@ -102,7 +102,8 @@ ADDITIONAL SHOW RULES
 - The verdict is one sentence and names the mistake, not the monster.
 - The final image pays off the object/motif.
 - No narrator, no Chacha inside the story.
-- 55-65 seconds, 10-12 shots.
+- 55-65 seconds.
+- Every scene must contain at least one spoken line. Ezclip drops a scene with no DIALOGUE; if a beat is silent, give the character a whisper or a one-word line.
 
 CHACHA FRAME (MANDATORY — this is the show's signature)
 The cold open is Chacha talking straight to the viewer, not a trailer voice.
@@ -172,8 +173,8 @@ OUTPUT FORMAT — follow exactly, but write the actual script, never placeholder
 ...
 ## Production notes
 - Voice direction for each character
-- 10-12 shot list
 - Sound and thumbnail notes
+- No shot list; the scenes are the shots.
 
 Write only the finished Markdown script. No preamble, no explanation, no code fences."""
 
