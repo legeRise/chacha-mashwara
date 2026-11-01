@@ -199,7 +199,9 @@ def parse_opencode_output(raw: str) -> str:
 
 
 def ensure_closing(script: str) -> str:
-    if re.search(r"rule yaad rakhna|rule yaad", script, re.I):
+    # New drafts end on the Devanagari tag. Do not append the old English line
+    # on top of it; that produced a duplicate CHACHA turn.
+    if re.search(r"rule yaad rakhna|rule yaad|रूल याद रखना|रूल याद", script, re.I):
         return script
     marker = "## FINAL IMAGE"
     line = '**CHACHA**\n"Rule yaad rakhna."\n\n'

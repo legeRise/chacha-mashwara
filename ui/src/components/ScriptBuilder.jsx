@@ -41,11 +41,13 @@ export default function ScriptBuilder({
   const [generating, setGenerating] = useState(false);
   const [generatedAt, setGeneratedAt] = useState(null);
   const [genError, setGenError] = useState("");
+  const [genWaiting, setGenWaiting] = useState(false);
   const [genWarnings, setGenWarnings] = useState([]);
   const [genQuality, setGenQuality] = useState(null);
   const [gateChecking, setGateChecking] = useState(false);
   const [transliterating, setTransliterating] = useState(false);
   const qualityPollRef = useRef(null);
+  const generatePollRef = useRef(null);
 
   const selectedRule = rules.find((rule) => rule.id === selectedId) || rules[0];
   const dialogue = dialogueOnly(script, selectedRule?.cast || "", selectedRule);
@@ -62,15 +64,22 @@ export default function ScriptBuilder({
     setSavedAt(null);
     setGeneratedAt(null);
     setGenError("");
+    setGenWaiting(false);
     setGenWarnings([]);
     setGenQuality(null);
     setGateChecking(false);
+    setGenerating(false);
     window.clearInterval(qualityPollRef.current);
     qualityPollRef.current = null;
+    window.clearInterval(generatePollRef.current);
+    generatePollRef.current = null;
   }, [selectedRule?.id]);
 
   useEffect(() => {
-    return () => window.clearInterval(qualityPollRef.current);
+    return () => {
+      window.clearInterval(qualityPollRef.current);
+      window.clearInterval(generatePollRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -194,39 +203,130 @@ export default function ScriptBuilder({
     }, 4000);
   }
 
+  function stopGeneratePoll() {
+    window.clearInterval(generatePollRef.current);
+    generatePollRef.current = null;
+  }
+
+  function applyGenerated(ruleId, data) {
+    setScript(data.script);
+    setDrafts((current) => ({ ...current, [ruleId]: data.script }));
+    setGeneratedAt(new Date());
+    setGenWaiting(false);
+    setGenWarnings(data.warnings || []);
+    setGenQuality(data.quality || null);
+    if (data.quality?.checking) {
+      watchQuality(ruleId);
+    } else {
+      setGateChecking(false);
+    }
+  }
+
+  async function loadSavedScript(ruleId) {
+    try {
+      const response = await fetch(`/api/script/${ruleId}`);
+      const type = response.headers.get("content-type") || "";
+      if (!type.includes("application/json")) {
+        throw new Error("The saved script is not available.");
+      }
+      const data = await response.json();
+      if (!response.ok || !data.script) {
+        throw new Error(data.error || "No saved script yet.");
+      }
+      applyGenerated(ruleId, data);
+      setGenerating(false);
+      setGenError("");
+      setGenWaiting(false);
+      showToast(`Loaded the saved script for ${ruleId}`);
+      return true;
+    } catch (error) {
+      showToast(error.message || "No saved script yet");
+      return false;
+    }
+  }
+
+  function startScriptPoll(ruleId) {
+    stopGeneratePoll();
+    setGenWaiting(true);
+    let tries = 0;
+    generatePollRef.current = window.setInterval(async () => {
+      tries += 1;
+      try {
+        const response = await fetch(`/api/script/${ruleId}`);
+        const type = response.headers.get("content-type") || "";
+        if (response.ok && type.includes("application/json")) {
+          const data = await response.json();
+          if (data.script) {
+            stopGeneratePoll();
+            applyGenerated(ruleId, data);
+            setGenerating(false);
+            setGenWaiting(false);
+            setGenError("");
+            showToast(`Full script ready for ${ruleId}`);
+            return;
+          }
+        }
+      } catch {
+        // The writer may still be running; keep checking.
+      }
+      if (tries >= 120) {
+        stopGeneratePoll();
+        setGenerating(false);
+        setGenWaiting(false);
+        setGenError(
+          "The writer is still running. Open this rule again in a few minutes, or click Load saved script.",
+        );
+      }
+    }, 5000);
+  }
+
   async function generateFullScript() {
     if (!selectedRule || generating || gateChecking) return;
+    const ruleId = selectedRule.id;
+    const force = Boolean(SAMPLE_SCRIPTS[ruleId]);
     setGenerating(true);
     setGenError("");
+    setGenWaiting(false);
     setGenWarnings([]);
     setGeneratedAt(null);
+    stopGeneratePoll();
     try {
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ruleId: selectedRule.id,
-          force: Boolean(SAMPLE_SCRIPTS[selectedRule.id]),
-        }),
+        body: JSON.stringify({ ruleId, force }),
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Writer failed");
-      setScript(data.script);
-      setDrafts((current) => ({ ...current, [selectedRule.id]: data.script }));
-      setGeneratedAt(new Date());
-      setGenWarnings(data.warnings || []);
-      setGenQuality(data.quality || null);
-      if (data.quality?.checking) {
-        watchQuality(selectedRule.id);
-      } else {
-        setGateChecking(false);
+      const type = response.headers.get("content-type") || "";
+      if (!type.includes("application/json")) {
+        // Cloudflare answers a request longer than ~100s with an HTML page.
+        // The writer keeps running; the saved script is the real result.
+        if (!force) {
+          setGenError("The writer is still running. Waiting for the saved script…");
+          startScriptPoll(ruleId);
+          return;
+        }
+        throw new Error("The writer took too long to answer. Try again.");
       }
-      showToast(`Full script written for ${selectedRule.id}`);
-    } catch (error) {
-      setGenError(error.message || "Writer failed");
-      showToast("Writer failed — see the message");
-    } finally {
+      const data = await response.json();
+      if (!response.ok) {
+        const error = new Error(data.error || "Writer failed");
+        error.fatal = true;
+        throw error;
+      }
+      applyGenerated(ruleId, data);
       setGenerating(false);
+      setGenWaiting(false);
+      showToast(`Full script written for ${ruleId}`);
+    } catch (error) {
+      if (!force && !error.fatal) {
+        setGenError("The writer is still running. Waiting for the saved script…");
+        startScriptPoll(ruleId);
+        return;
+      }
+      setGenError(error.message || "Writer failed");
+      setGenerating(false);
+      setGenWaiting(false);
+      showToast("Writer failed — see the message");
     }
   }
 
@@ -361,7 +461,15 @@ export default function ScriptBuilder({
 
               {genError ? (
                 <div className="generation-error">
-                  <strong>Writer failed.</strong> {genError}
+                  <strong>{genWaiting ? "Writer still running." : "Writer failed."}</strong>{" "}
+                  {genError}
+                  <button
+                    className="btn btn-small"
+                    style={{ marginTop: 8 }}
+                    onClick={() => loadSavedScript(selectedRule.id)}
+                  >
+                    <RotateCcw size={14} /> Load saved script
+                  </button>
                 </div>
               ) : null}
 
