@@ -104,6 +104,27 @@ ADDITIONAL SHOW RULES
 - No narrator, no Chacha inside the story.
 - 55-65 seconds, 10-12 shots.
 
+CHACHA FRAME (MANDATORY — this is the show's signature)
+The cold open is Chacha talking straight to the viewer, not a trailer voice.
+He is an uncle stating an obvious fact, with no drama and no growl.
+
+Cold open, in this exact order:
+1. A flat, common-sense warning:
+   "लोग ऐसे ही नहीं कहते... <the rule in one short sentence>।"
+2. Name the protagonist and say he had already heard it:
+   "<Name> ने भी यह सुन रखा था। लेकिन उसने नज़रअंदाज़ कर दिया।"
+3. Hand the story to the viewer:
+   "फिर क्या हुआ? खुद ही देख लो।"
+
+The return, in this order:
+1. What the protagonist did, in one plain line.
+2. What the thing understood it as, in one plain line.
+3. The haunting outcome, one line.
+4. A direct question to the viewer, then the tag "रूल याद रखना।"
+
+Do not make Chacha poetic. Do not explain the entity. The frame is a man
+telling you what happened, not a narrator performing a legend.
+
 THE SEED
 - ID: {rule.get('id','')}
 - Rule: {rule.get('rule','')}

@@ -58,6 +58,28 @@ One rule at a time. This is the fastest way to clear a volume.
   check finishes.
 - Review the draft. Edit it if needed.
 - Chacha appears only in the cold open and the return. No narrator inside the story.
+
+### The Chacha frame
+
+Every episode opens with the same three-beat cold open:
+
+1. `लोग ऐसे ही नहीं कहते... <rule>।`
+2. `<Name> ने भी यह सुन रखा था। लेकिन उसने नज़रअंदाज़ कर दिया।`
+3. `फिर क्या हुआ? खुद ही देख लो।`
+
+The return closes it in four beats: what he did, what the thing understood,
+the haunting outcome, then the tag `रूल याद रखना।`
+
+Chacha plays it straight — an uncle stating a fact, not a trailer voice. No
+growl, no rhyme, no explaining the entity. This frame is the show; the story
+changes, the frame does not.
+
+### Ezclip edit
+
+Use a **3-second Swirl** into the story and a **3-second RotateScaleVanish**
+back to Chacha. Use a **1.2-second dissolve** between ordinary scenes. Do not
+spiral every cut; the spiral is the move into another world, so it only works
+at the frame boundary and the wedding cross-cut.
 - **Save draft** keeps the script in this browser.
 - New drafts write dialogue in **Hindi Devanagari**, not Roman transliteration.
   For an older Roman draft, click **Hindi script** first; it converts only the
