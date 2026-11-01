@@ -172,10 +172,10 @@ export default function SeedStudio({ rules, showToast }) {
         <div className="head-actions">
           <button
             className="btn btn-primary"
-            onClick={() => copy("Prompt + seed", promptWithSeed)}
+            onClick={() => copy("Main prompt", SEED_PROMPT)}
           >
-            {copied === "Prompt + seed" ? <Check size={15} /> : <Copy size={15} />}
-            Copy prompt + seed
+            {copied === "Main prompt" ? <Check size={15} /> : <Copy size={15} />}
+            Copy main prompt
           </button>
         </div>
       </header>
@@ -185,7 +185,7 @@ export default function SeedStudio({ rules, showToast }) {
           <div className="panel-head">
             <div>
               <h2>Main prompt</h2>
-              <span>Paste this once at the start of the chat.</span>
+              <span>Paste once at the start. Then send one seed per message.</span>
             </div>
             <button className="btn btn-small" onClick={() => copy("Main prompt", SEED_PROMPT)}>
               {copied === "Main prompt" ? <Check size={14} /> : <Copy size={14} />}
@@ -237,13 +237,13 @@ export default function SeedStudio({ rules, showToast }) {
           </div>
 
           <div className="seed-actions">
-            <button className="btn btn-primary" onClick={() => copy("Prompt + seed", promptWithSeed)}>
-              {copied === "Prompt + seed" ? <Check size={15} /> : <Sparkles size={15} />}
-              Copy prompt + seed
-            </button>
-            <button className="btn" onClick={() => copy("Seed", `SEED:\n${seedText(seed)}\n`)}>
+            <button className="btn btn-primary" onClick={() => copy("Seed", `SEED:\n${seedText(seed)}\n`)}>
               {copied === "Seed" ? <Check size={15} /> : <Copy size={15} />}
               Copy seed
+            </button>
+            <button className="btn" onClick={() => copy("Prompt + seed", promptWithSeed)}>
+              {copied === "Prompt + seed" ? <Check size={15} /> : <Sparkles size={15} />}
+              Copy prompt + seed (one-shot)
             </button>
             <button
               className="btn"
@@ -265,12 +265,12 @@ export default function SeedStudio({ rules, showToast }) {
         </div>
         <ol className="seed-steps">
           <li>
-            <strong>Copy prompt + seed</strong> and paste it into one AI chat. That is the whole
-            brief.
+            <strong>Copy main prompt</strong> and paste it into one AI chat. It will reply
+            &ldquo;Ready&rdquo; and wait.
           </li>
           <li>
-            For the next episode, click <strong>New distinct seed</strong>, then{" "}
-            <strong>Copy seed</strong>, and send only the seed. The agent already has the prompt.
+            Click <strong>New distinct seed</strong>, then <strong>Copy seed</strong>, and send
+            only the seed. Repeat for each episode.
           </li>
           <li>
             Or click <strong>Copy new-seed request</strong> and let the agent invent a seed that
