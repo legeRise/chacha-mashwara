@@ -4,6 +4,7 @@ import Dashboard from "./components/Dashboard.jsx";
 import Browse from "./components/Browse.jsx";
 import ReviewDeck from "./components/ReviewDeck.jsx";
 import ScriptBuilder from "./components/ScriptBuilder.jsx";
+import SeedStudio from "./components/SeedStudio.jsx";
 import LaunchPlan from "./components/LaunchPlan.jsx";
 import RuleDrawer from "./components/RuleDrawer.jsx";
 import Guide from "./components/Guide.jsx";
@@ -16,11 +17,11 @@ import {
 } from "./lib.js";
 import { useLocalStorage } from "./useLocalStorage.js";
 
-const ROUTES = new Set(["dashboard", "browse", "review", "script", "launch", "guide"]);
+const ROUTES = new Set(["studio", "dashboard", "browse", "review", "script", "launch", "guide"]);
 
 function currentRoute() {
   const hash = window.location.hash.replace(/^#\/?/, "");
-  return ROUTES.has(hash) ? hash : "dashboard";
+  return ROUTES.has(hash) ? hash : "studio";
 }
 
 export default function App() {
@@ -198,6 +199,10 @@ export default function App() {
 
       <main className="main">
         <div className="route-view" key={route}>
+          {route === "studio" ? (
+            <SeedStudio rules={rules} showToast={showToast} />
+          ) : null}
+
           {route === "dashboard" ? (
             <Dashboard
               rules={rules}
