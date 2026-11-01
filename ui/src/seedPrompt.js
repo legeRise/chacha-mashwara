@@ -43,6 +43,7 @@ Do not add a second event or a new mystery after the outcome. The final image ca
 - 6–8 scenes, 55–75 seconds, 2–4 speakers.
 - One location per scene. Split at the door; never put the flat and the corridor in the same scene.
 - Every scene must contain at least one spoken line. A silent scene is dropped by Ezclip.
+- No one-word or two-word spoken turns. Every line must be a complete short sentence, at least four words, with a verb. Fold "हाँ", "नहीं", "कौन", "चल", "क्या?" into a full line: "हाँ, बोलो, क्या बात है?" not "हाँ।" The TTS has no sentence context for a bare word.
 - The protagonist has a specific want and a concrete object/motif.
 - The breach is sympathetic: guilt, love, politeness, hope, need. Never mere curiosity.
 - The twist is caused by the protagonist's choice, not a random event.

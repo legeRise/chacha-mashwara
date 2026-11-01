@@ -103,7 +103,8 @@ ADDITIONAL SHOW RULES
 - The final image pays off the object/motif.
 - No narrator, no Chacha inside the story.
 - 55-65 seconds.
-- Every scene must contain at least one spoken line. Ezclip drops a scene with no DIALOGUE; if a beat is silent, give the character a whisper or a one-word line.
+- Every scene must contain at least one spoken line. Ezclip drops a scene with no DIALOGUE; if a beat is silent, give the character a whispered full sentence.
+- No one-word or two-word spoken turns. Every line must be a complete short sentence, at least four words, with a verb. The TTS has no sentence context for a bare "हाँ", "नहीं", "कौन" or "चल".
 - One scene, one location. Split at the door instead of putting the flat and the corridor in the same scene.
 
 CHACHA FRAME (MANDATORY — this is the show's signature)

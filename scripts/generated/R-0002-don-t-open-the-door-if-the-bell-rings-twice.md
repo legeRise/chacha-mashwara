@@ -33,7 +33,7 @@
 
 **SHANTI:** जूते दरवाज़े पर उतारना। फ़र्श अभी पोंछा है।
 
-**AMIT (V.O.):** हाँ माँ।
+**AMIT (V.O.):** हाँ माँ, जूते उतार दूँगा।
 
 *She hangs up. Takes a new pair of shoes off the rack, wipes a scuff off the left toe with the end of her dupatta, sets them by the door — toes pointing out, ready for him.*
 
@@ -53,7 +53,7 @@
 
 *Shanti shuts the door. The chain slides. Click. She looks at the covered plate and says it to herself, fondly, like a line from a song.*
 
-**SHANTI (soft):** एक लंबी... एक छोटी।
+**SHANTI (soft):** एक लंबी घंटी... एक छोटी घंटी।
 
 ### Scene 3 — The breach (0:24–0:34)
 
@@ -65,7 +65,7 @@
 
 *BELL. One short ring.*
 
-**SHANTI (whisper):** एक लंबी... एक छोटी।
+**SHANTI (whisper):** एक लंबी घंटी... एक छोटी घंटी।
 
 *Her hand slides the chain to its full length. She opens the door a hand's width.*
 
@@ -75,11 +75,11 @@
 
 *Shanti leans into the gap.*
 
-**SHANTI:** बेटा?
+**SHANTI:** बेटा, बाहर तुम हो?
 
 *Nothing. Water runs in the drain. She starts to pull the door back.*
 
-**SHANTI (to herself):** घंटी बजी कैसे?
+**SHANTI (to herself):** यह घंटी बजी कैसे?
 
 ### Scene 5 — The twist (0:43–0:48)
 
@@ -87,10 +87,10 @@
 
 *Her head turns.*
 
-**SHANTI (small):** अमित?
+**SHANTI (small):** अमित, यह तुम हो?
 
 
-**SHANTI (small):** जूते... अंदर?
+**SHANTI (small):** ये जूते... अंदर कैसे आए?
 
 *She pulls the door shut. The chain slides. Click.*
 
