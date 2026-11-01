@@ -4,8 +4,8 @@
 
 | Gate status | Count |
 |---|---:|
-| Passed | 1 |
-| Needs fix | 238 |
+| Passed | 3 |
+| Needs fix | 236 |
 | Ungated | 761 |
 | Killed | 0 |
 
@@ -13,11 +13,11 @@
 
 | Flag | Count |
 |---|---:|
-| missing-object-motif | 999 |
-| missing-theme | 999 |
-| missing-verdict | 999 |
-| missing-want | 999 |
-| generic-breach | 166 |
+| missing-object-motif | 997 |
+| missing-theme | 997 |
+| missing-verdict | 997 |
+| missing-want | 997 |
+| generic-breach | 164 |
 | twist-trope | 76 |
 | duplicate-final-image | 12 |
 
@@ -26,7 +26,7 @@
 | Volume | Total | Passed | Needs fix | Ungated | Killed |
 |---|---:|---:|---:|---:|---:|
 | Bachpan | 100 | 0 | 23 | 77 | 0 |
-| Ghar | 100 | 1 | 16 | 83 | 0 |
+| Ghar | 100 | 3 | 14 | 83 | 0 |
 | Khandan | 100 | 0 | 20 | 80 | 0 |
 | Mausam | 100 | 0 | 17 | 83 | 0 |
 | Mohalla | 100 | 0 | 21 | 79 | 0 |

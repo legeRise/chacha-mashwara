@@ -1,7 +1,7 @@
 id,want,object_motif,theme,verdict,seed_score,gate_status,flags,notes
 R-0001,To apologize to his sister for skipping her wedding.,The wedding card.,Guilt opens doors that caution would keep shut.,Tum ne maafi ke liye darwaza khola. Usne ijazat samajh li.,9,passed,,Rewritten with the flash-fiction and endings gate.
-R-0002,,,,,1,needs-fix,generic-breach;missing-object-motif;missing-theme;missing-verdict;missing-want,Launch week 1; seed pass required.
-R-0003,,,,,1,needs-fix,generic-breach;missing-object-motif;missing-theme;missing-verdict;missing-want,
+R-0002,To have her son home for dinner and prove she can still take care of him.,The wet shoes by the door.,The need to be needed can make a lock feel like a welcome.,Tum ne doosri ghanti ko beta samjha. Usne darwaza samajh liya.,8,passed,,"Curated: specific signal, want and verdict."
+R-0003,To sign for the last parcel addressed to her husband and feel him once more.,The clipboard and the chain.,Grief opens a gap that politeness keeps open.,Tum ne shisht ke liye gap khola. Usne haath daal diya.,8,passed,,"Curated: specific parcel, want and verdict."
 R-0004,,,,,1,needs-fix,generic-breach;missing-object-motif;missing-theme;missing-verdict;missing-want,
 R-0005,,,,,0,ungated,missing-object-motif;missing-theme;missing-verdict;missing-want,
 R-0006,,,,,0,ungated,missing-object-motif;missing-theme;missing-verdict;missing-want,

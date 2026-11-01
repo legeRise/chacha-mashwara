@@ -17,8 +17,8 @@
 
 ## Quality gate
 
-- Passed: **1**
-- Needs fix: **238**
+- Passed: **3**
+- Needs fix: **236**
 - Ungated: **761**
 - Killed: **0**
 

@@ -7,8 +7,8 @@
 | ID | Rule | Consequence | Cast | Place | Twist | Gate |
 |---|---|---|---|---|---|---|
 | R-0001 | Never answer the door after midnight | The voice outside learns yours | YOUNG MAN; SISTER; THE VOICE | A second-floor flat above a tailor's shop | His sister is still at the wedding; the voice is already inside | passed (9) |
-| R-0002 | Don't open the door if the bell rings twice | The second ring is an invitation | MOTHER; SON; NEIGHBOR | A ground-floor flat with a broken bell | The second ring came from inside the house | needs-fix (1) |
-| R-0003 | Never open the door with the chain still on | What enters is only as wide as the gap | WOMAN; DELIVERY BOY; THE HAND | A flat in a narrow lane | The hand belongs to no one at the door | needs-fix (1) |
+| R-0002 | Don't open the door if the bell rings twice | The second ring is an invitation | MOTHER; SON; NEIGHBOR | A ground-floor flat with a broken bell | The second ring came from inside the house | passed (8) |
+| R-0003 | Never open the door with the chain still on | What enters is only as wide as the gap | WOMAN; DELIVERY BOY; THE HAND | A flat in a narrow lane | The hand belongs to no one at the door | passed (8) |
 | R-0004 | Don't look through the peephole after sunset | It looks back | WOMAN; THE EYE; NEIGHBOR | A third-floor flat with a fish-eye lens | The eye is on the inside of the peephole | needs-fix (1) |
 | R-0005 | Never leave the door ajar for the cat | Something else learns the gap | GIRL; MOTHER; THE STRAY | A ground-floor house with a cat flap | The stray has been sleeping in her bed, not the cat | ungated (0) |
 | R-0006 | Don't paint your front door black | The house stops recognizing you | MAN; WIFE; STRANGER | A small house in a back lane | The stranger says he has lived there for years | ungated (0) |
